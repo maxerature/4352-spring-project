@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Login</title>
   </head>
   <body>
     <form id="login">
@@ -12,6 +12,7 @@
         <p>
           <label for="uname"><b>Username: </b></label>
           <input
+            class="input-field"
             type="text"
             id="uname"
             placeholder="Enter Username"
@@ -23,6 +24,7 @@
         <p>
           <label for="psw"><b>Password: </b></label>
           <input
+            class="input-field"
             type="password"
             id="psw"
             placeholder="Enter Password"
@@ -32,7 +34,7 @@
         </p>
 
         <p>
-          <button id="loginButton">Login</button>
+          <button onclick="AuthUser()">Login</button>
         </p>
 
         <p>
@@ -42,10 +44,6 @@
     </form>
 
     <script>
-      document
-        .getElementById("loginButton")
-        .addEventListener("click", AuthUser);
-
       function AuthUser() {
         event.preventDefault();
         fetch("./users.json") // Get users JSON
