@@ -38,7 +38,7 @@
         </p>
 
         <p>
-          <a href="registration.html">Register</a>
+          <a href="./registration/registration.html">Register</a>
         </p>
       </div>
     </form>
@@ -58,8 +58,12 @@
             if (userInfo.users.hasOwnProperty(username)) {
               // If password matches in db
               if (userInfo.users[username].password == password) {
-                // login
-                window.location.href = "manageprofile.html";
+                // If user already created profile
+                if (userInfo.users[username].fullname != null) {
+                  window.location.href = "manageprofile.html";
+                } else {
+                  window.location.href = "quote.html";
+                }
               } else {
                 // error
                 alert(
