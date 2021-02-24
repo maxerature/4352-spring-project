@@ -46,7 +46,7 @@
     <script>
       function AuthUser() {
         event.preventDefault();
-        fetch("./registration/users.json") // Get users JSON
+        fetch("./users.json") // Get users JSON
           .then((response) => {
             return response.json();
           })
