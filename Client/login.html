@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form id="login">
+      <div class="container">
+        <p>
+          <label for="uname"><b>Username: </b></label>
+          <input
+            class="input-field"
+            type="text"
+            id="uname"
+            placeholder="Enter Username"
+            name="uname"
+            required
+          />
+        </p>
+
+        <p>
+          <label for="psw"><b>Password: </b></label>
+          <input
+            class="input-field"
+            type="password"
+            id="psw"
+            placeholder="Enter Password"
+            name="psw"
+            required
+          />
+        </p>
+
+        <p>
+          <button onclick="AuthUser()">Login</button>
+        </p>
+
+        <p>
+          <a href="registration.html">Register</a>
+        </p>
+      </div>
+    </form>
+
+    <script>
+      function AuthUser() {
+        event.preventDefault();
+        fetch("./users.json") // Get users JSON
+          .then((response) => {
+            return response.json();
+          })
+          .then((userInfo) => {
+            const username = document.getElementById("uname").value;
+            const password = document.getElementById("psw").value;
+
+            // If username exists in db
+            if (userInfo.users.hasOwnProperty(username)) {
+              // If password matches in db
+              if (userInfo.users[username].password == password) {
+                // login
+                window.location.href = "manageprofile.html";
+              } else {
+                // error
+                alert(
+                  "Error: Login failed\nUsername does not exist, or password was typed incorrectly."
+                );
+              }
+            } else {
+              // error
+              alert(
+                "Error: Login failed\nUsername does not exist, or password was typed incorrectly."
+              );
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
