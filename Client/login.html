@@ -60,9 +60,9 @@
               if (userInfo.users[username].password == password) {
                 // If user already created profile
                 if (userInfo.users[username].fullname != null) {
-                  window.location.href = "manageprofile.html";
-                } else {
                   window.location.href = "quote.html";
+                } else {
+                  window.location.href = "manageprofile.html";
                   //localStorage.setItem("username", "uname");
                 }
               } else {
