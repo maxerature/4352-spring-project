@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuel Quote Form</title>
+  </head>
+  <body>
+      <h1>Fuel Quote Form</h1>
+    <form id="fuel-quote">
+      <div class="container">
+        <p>
+          <label for="gallreq"><b>Gallons Requested </b></label>
+          <input
+            class="input-field"
+            type="number"
+            id="gallreq"
+            placeholder="Gallons"
+            name="gall-req"
+            required
+          />
+        </p>
+            <p>Delivery Address:
+                <div id="addr1"></div> 
+                <div id="addr2"></div>
+                <div id = "city"></div> <div id = "state"></div> <div id = "zipcode"></div>
+            </p>
+      </div>
+    </form>
+
+    <script>
+        window.onload = function() {
+            let username = localStorage.getItem("username");
+            fetch("./users.json")
+            .then((response) => {
+                return response.json();
+            })
+            .then((userInfo) => {
+                if(userInfo.users.hasOwnProperty(username)) {
+                    document.getElementById("addr1").innerHTML = userInfo.users[username].address1;
+                    document.getElementById("addr2").innerHTML = userInfo.users[username].address2;
+                    document.getElementById("city").innerHTML = userInfo.users[username].address2;
+                    document.getElementById("state").innerHTML = userInfo.users[username].address2;
+                    document.getElementById("zipcode").innerHTML = userInfo.users[username].address2;
+                }
+            })
+        }
+    </script>
+
+
+    </body>
+</html>
