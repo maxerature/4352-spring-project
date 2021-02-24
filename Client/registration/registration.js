@@ -1,19 +1,17 @@
 
 
 
-var fs = require('fs')
+const fs = require('fs')
 
 
 function register() {
     try{
-        let uname = document.querySelector(`#uname`).value
-        let password = document.querySelector(`#pword`).value
-        
-       
-        fs.readFile('./users.json', 'utf-8', 
-            function(err, data){
+        let uname = document.querySelector(`#uname`).value || "Lynn"
+        let password = document.querySelector(`#pword`).value || "123"
+
+        fs.readFile('./users.json', (err, data) => {
                 if (err){
-                    alert("err = " + err.message)
+                    console.log(alert("err = " + err.message))
                 }
                 var users_arr = JSON.parse(data)
 
@@ -47,7 +45,7 @@ function register() {
         )
     }
     catch(err){
-        alert("err = " + err.message)
+       alert("err = " + err.message)
     }
 }
 
