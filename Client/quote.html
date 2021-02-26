@@ -21,6 +21,7 @@
             placeholder="Gallons"
             name="gall-req"
             required
+            onchange="setPrice()"
           />
         </p>
       </div>
@@ -38,18 +39,40 @@
 
       <div>
         <label for delivery-date>Delivery Date: </label>
-        <input type="date" id="delivery-date" name = "delivery-date" class="input-field">
+        <input type="date" 
+          id="delivery-date" 
+          name = "delivery-date" 
+          class="input-field"
+          required
+          >
       </div>
         
       <div>
         <p class="inline">Suggested Price/Gallon: $</p> 
         <div id="ppg" class="inline"></div>
       </div>
+
+      <div id="price-output">
+        <p class="inline">Total Cost: </p>
+        <div id="cost" class="inline" class="price-output"></div>
+      </div>
+
+      <button onclick="submitQuote()">Submit</button>
     </form>
 
     <script>
+      let pricePerGal;
+      let addr1Var;
+      let addr2Var;
+      let cityVar;
+      let stateVar;
+      let zipcodeVar;
+      let cost;
+      let galsRequested;
+      let username;
+      
       window.onload = function() {
-        let username = localStorage.getItem("username");
+        username = localStorage.getItem("username");
         fetch("./users.json").then((response) => {
           return response.json();
         }).then((userInfo) => {
@@ -71,9 +94,46 @@
             document.getElementById("zipcode").innerHTML = zipcodeVar;
                   
 
-            let pricePerGal = Math.random();
+            pricePerGal = Math.random();
             pricePerGal = Math.floor(pricePerGal*1000)/1000;
             document.getElementById("ppg").innerHTML = pricePerGal;
+          }
+        })
+      }
+
+      function setPrice() {
+        galsRequested = document.getElementById("gallreq").value;
+        if(isNaN(galsRequested)) {
+          alert("Gallons requested must be a number!");
+        }
+        else {
+          cost = galsRequested * pricePerGal;
+          document.getElementById("cost").innerHTML = cost;
+        }
+      }
+
+      function submitQuote() {
+        event.preventDefault();
+        fetch("./users.json").then((response) => {
+          return response.json();
+        }).then((userInfo) => {
+          if(userInfo.users.hasOwnProperty(username)) {
+            if(!isNaN(galsRequested) && galsRequested>0) {
+              var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$addr1Var`,"delivery_address2":`$addr2Var`,"delivery_date":`$date`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
+              let lengt = userInfo.users[username].history.length;
+              let date = document.getElementById("delivery-date").value;
+              //userInfo.users[username].history[length-1].requested=galsRequested;
+              //userInfo.users[username].history[length-1].delivery_address1=addr1Var;
+              //userInfo.users[username].history[length-1].delivery_address2=addr2Var;
+              //userInfo.users[username].history[length-1].delivery_date=date;
+              //userInfo.users[username].history[length-1].suggested_ppg=pricePerGal;
+              //userInfo.users[username].history[length-1].total=cost;
+
+              console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var,"delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
+              
+
+              alert("Fuel Quote Submitted!");
+            }
           }
         })
       }

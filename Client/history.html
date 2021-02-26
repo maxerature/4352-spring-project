@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href = "Style.css">
+    <title>Fuel Quote Form</title>
+  </head>
+  <body>
+
+
+    <script>
+        var elements = [];
+        window.onload = function() {
+        username = localStorage.getItem("username");
+        fetch("./users.json").then((response) => {
+          return response.json();
+        }).then((userInfo) => {
+          if(userInfo.users.hasOwnProperty(username)) {
+              for(let i=0; i< userInfo.users[username].history.length; i++) {
+                  elements.push(userInfo.users[username].history[i]);
+                  console.log(elements[i]);
+              }
+    </script>
+  </body>

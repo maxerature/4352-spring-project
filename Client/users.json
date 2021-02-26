@@ -11,7 +11,8 @@
       "history": [
         {
           "requested": 1,
-          "delivery_address": "Daddr1",
+          "delivery_address1": "Daddr1",
+          "delivery_address2" : "",
           "delivery_date": "Ddate1",
           "suggested_ppg": 1,
           "total": 1
