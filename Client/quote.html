@@ -129,7 +129,7 @@
               //userInfo.users[username].history[length-1].suggested_ppg=pricePerGal;
               //userInfo.users[username].history[length-1].total=cost;
 
-              console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var,"delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
+              console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
               
 
               window.location.href = "history.html";

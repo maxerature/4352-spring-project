@@ -15,6 +15,7 @@
           "delivery_address2" : "",
           "city": "Emond's Field",
           "state": "Two Rivers",
+          "zipcode": "00000",
           "delivery_date": "Saven 22, 1001 NE",
           "suggested_ppg": 1,
           "total": 1
