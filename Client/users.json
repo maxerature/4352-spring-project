@@ -18,7 +18,18 @@
           "zipcode": "00000",
           "delivery_date": "Saven 22, 1001 NE",
           "suggested_ppg": 1,
-          "total": 1
+          "total": 1.08
+        },
+        {
+          "requested": 420,
+          "delivery_address1": "1600 Pennsylvania Avenue, N.W.",
+          "delivery_address2" : "",
+          "city": "Washington",
+          "state": "DC",
+          "zipcode": "20500",
+          "delivery_date": "April 20, 743 B.C",
+          "suggested_ppg": 2,
+          "total": 840
         }
       ]
     }

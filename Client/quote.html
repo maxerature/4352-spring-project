@@ -122,15 +122,9 @@
               var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$addr1Var`,"delivery_address2":`$addr2Var`,"delivery_date":`$date`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
               let lengt = userInfo.users[username].history.length;
               let date = document.getElementById("delivery-date").value;
-              //userInfo.users[username].history[length-1].requested=galsRequested;
-              //userInfo.users[username].history[length-1].delivery_address1=addr1Var;
-              //userInfo.users[username].history[length-1].delivery_address2=addr2Var;
-              //userInfo.users[username].history[length-1].delivery_date=date;
-              //userInfo.users[username].history[length-1].suggested_ppg=pricePerGal;
-              //userInfo.users[username].history[length-1].total=cost;
 
               console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
-              
+              console.log(userInfo);
 
               window.location.href = "history.html";
             }
