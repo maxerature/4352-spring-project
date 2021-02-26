@@ -30,3 +30,7 @@ p{
     display: none;
 }
 
+.inline{
+    display: inline-block;
+}
+

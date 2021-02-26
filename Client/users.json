@@ -3,11 +3,11 @@
     "username1": {
       "password": "pass1",
       "fullname": "fname1",
-      "address1": "addr1",
+      "address1": "1600 Pennsylvania Avenue, N.W.",
       "address2": "",
-      "city": "city1",
-      "state": "state1",
-      "zipcode": "zip1",
+      "city": "Washington",
+      "state": "DC",
+      "zipcode": "20500",
       "history": [
         {
           "requested": 1,
