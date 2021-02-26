@@ -23,12 +23,10 @@
             required
           />
         </p>
-      
-      
-          <p>Delivery Address:</p>
       </div>
       
       <div>
+        <p>Delivery Address:</p>
         <div id="addr1"></div> 
         <div id="addr2"></div>
 
@@ -43,43 +41,42 @@
         <input type="date" id="delivery-date" name = "delivery-date">
       </div>
         
-      <p class="inline">Suggested Price/Gallon: $</p> <div id="ppg" class="inline"></div>
+      <div>
+        <p class="inline">Suggested Price/Gallon: $</p> 
+        <div id="ppg" class="inline"></div>
+      </div>
     </form>
 
     <script>
-        window.onload = function() {
-            let username = localStorage.getItem("username");
-            fetch("./users.json")
-            .then((response) => {
-                return response.json();
-            })
-            .then((userInfo) => {
-                if(userInfo.users.hasOwnProperty(username)) {
-                console.log("Username Found: " + username);
-                addr1Var = userInfo.users[username].address1;
-                addr2Var = userInfo.users[username].address2;
-                cityVar = userInfo.users[username].city;
-                stateVar = userInfo.users[username].state;
-                zipcodeVar = userInfo.users[username].zipcode;
-                console.log("address1: " + addr1Var);
-                console.log("city: " + cityVar);
-                console.log("stateVar: " + stateVar);
+      window.onload = function() {
+        let username = localStorage.getItem("username");
+        fetch("./users.json").then((response) => {
+          return response.json();
+        }).then((userInfo) => {
+          if(userInfo.users.hasOwnProperty(username)) {
+            console.log("Username Found: " + username);
+            addr1Var = userInfo.users[username].address1;
+            addr2Var = userInfo.users[username].address2;
+            cityVar = userInfo.users[username].city;
+            stateVar = userInfo.users[username].state;
+            zipcodeVar = userInfo.users[username].zipcode;
+            console.log("address1: " + addr1Var);
+            console.log("city: " + cityVar);
+            console.log("stateVar: " + stateVar);
 
-                document.getElementById("addr1").innerHTML = addr1Var;
-                document.getElementById("addr2").innerHTML = addr2Var;
-                document.getElementById("city").innerHTML = cityVar;
-                document.getElementById("state").innerHTML = stateVar;
-                document.getElementById("zipcode").innerHTML = zipcodeVar;
+            document.getElementById("addr1").innerHTML = addr1Var;
+            document.getElementById("addr2").innerHTML = addr2Var;
+            document.getElementById("city").innerHTML = cityVar;
+            document.getElementById("state").innerHTML = stateVar;
+            document.getElementById("zipcode").innerHTML = zipcodeVar;
                   
 
-                let pricePerGal = Math.random();
-                pricePerGal = Math.floor(pricePerGal*1000)/1000;
-                document.getElementById("ppg").innerHTML = pricePerGal;
-              }
-            })
-        }
+            let pricePerGal = Math.random();
+            pricePerGal = Math.floor(pricePerGal*1000)/1000;
+            document.getElementById("ppg").innerHTML = pricePerGal;
+          }
+        })
+      }
     </script>
-
-
-    </body>
+  </body>
 </html>
