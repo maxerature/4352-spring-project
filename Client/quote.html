@@ -24,7 +24,7 @@
             <p>Delivery Address:
                 <div id="addr1"></div> 
                 <div id="addr2"></div>
-                <div id = "city"></div> <div id = "state"></div> <div id = "zipcode"></div>
+                <div id ="city"></div> <div id = "state"></div> <div id = "zipcode"></div>
             </p>
       </div>
     </form>
@@ -32,18 +32,21 @@
     <script>
         window.onload = function() {
             let username = localStorage.getItem("username");
+            console.log(username);
             fetch("./users.json")
             .then((response) => {
                 return response.json();
             })
             .then((userInfo) => {
-                if(userInfo.users.hasOwnProperty(username)) {
-                    document.getElementById("addr1").innerHTML = userInfo.users[username].address1;
-                    document.getElementById("addr2").innerHTML = userInfo.users[username].address2;
-                    document.getElementById("city").innerHTML = userInfo.users[username].address2;
-                    document.getElementById("state").innerHTML = userInfo.users[username].address2;
-                    document.getElementById("zipcode").innerHTML = userInfo.users[username].address2;
-                }
+                //if(userInfo.users.hasOwnProperty(username)) {
+                  console.log("Username Found");
+                    addr1Var = userInfo.users[username].address1;
+                    addr2Var = userInfo.users[username].address2;
+                    cityVar = userInfo.users[username].city;
+                    stateVar = userInfo.users[username].stateVar;
+                    zipcodeVar = userInfo.users[username].zipcodeVar;
+                //}
+                //else console.log("Username Not Found");
             })
         }
     </script>
