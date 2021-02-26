@@ -10,9 +10,9 @@
   <body>
     <h1>Fuel Quote History</h1>
 
-    <textarea id="display" style="width:1000px;height:1000px"></textarea>
+    <div id="history"></div>
     <script>
-        var elements = [];
+        let elements = [];
         var parsed = "";
         window.onload = function() {
         username = localStorage.getItem("username");
@@ -22,13 +22,14 @@
           if(userInfo.users.hasOwnProperty(username)) {
               for(let i=0; i< userInfo.users[username].history.length; i++) {
                   elements.push(userInfo.users[username].history[i]);
-                  console.log(elements[i]);
 
+                  parsed += "<h3>Quote #" + (i+1) + "</h3>";
                   for(object in userInfo.users[username].history[i]) {
-                      parsed += object + ": " + userInfo.users[username].history[i][object] + "\n";
+                      parsed += "<b>" + object + ":</b> " + userInfo.users[username].history[i][object] + "<br>";
                   }
 
-                $("#display").val(parsed);
+                  document.getElementById("history").innerHTML = parsed;
+                //$("#display").val(parsed);
               }
 
             }

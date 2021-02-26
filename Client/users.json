@@ -10,10 +10,12 @@
       "zipcode": "20500",
       "history": [
         {
-          "requested": 1,
-          "delivery_address1": "Daddr1",
+          "requested": 1.08,
+          "delivery_address1": "The al'Thor Farm",
           "delivery_address2" : "",
-          "delivery_date": "Ddate1",
+          "city": "Emond's Field",
+          "state": "Two Rivers",
+          "delivery_date": "Saven 22, 1001 NE",
           "suggested_ppg": 1,
           "total": 1
         }
