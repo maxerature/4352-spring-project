@@ -7,7 +7,16 @@
       "address2": "",
       "city": "city1",
       "state": "state1",
-      "zipcode": "zip1"
+      "zipcode": "zip1",
+      "history": [
+        {
+          "requested": 1,
+          "delivery_address": "Daddr1",
+          "delivery_date": "Ddate1",
+          "suggested_ppg": 1,
+          "total": 1
+        }
+      ]
     }
   }
 }
