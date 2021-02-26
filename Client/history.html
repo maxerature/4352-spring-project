@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href = "Style.css">
-    <title>Fuel Quote Form</title>
+    <title>Fuel Quote History</title>
   </head>
   <body>
+    <h1>Fuel Quote History</h1>
 
-
+    <textarea id="display" style="width:1000px;height:1000px"></textarea>
     <script>
         var elements = [];
+        var parsed = "";
         window.onload = function() {
         username = localStorage.getItem("username");
         fetch("./users.json").then((response) => {
@@ -21,6 +23,16 @@
               for(let i=0; i< userInfo.users[username].history.length; i++) {
                   elements.push(userInfo.users[username].history[i]);
                   console.log(elements[i]);
+
+                  for(object in userInfo.users[username].history[i]) {
+                      parsed += object + ": " + userInfo.users[username].history[i][object] + "\n";
+                  }
+
+                $("#display").val(parsed);
               }
+
+            }
+        })
+    }
     </script>
   </body>

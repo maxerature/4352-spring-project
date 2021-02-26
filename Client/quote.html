@@ -132,7 +132,7 @@
               console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var,"delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
               
 
-              alert("Fuel Quote Submitted!");
+              window.location.href = "history.html";
             }
           }
         })
