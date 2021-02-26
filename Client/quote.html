@@ -8,9 +8,10 @@
     <title>Fuel Quote Form</title>
   </head>
   <body>
-      <h1>Fuel Quote Form</h1>
+    <h1>Fuel Quote Form</h1>
+    
     <form id="fuel-quote">
-      <div class="container">
+      <div>
         <p>
           <label for="gallreq"><b>Gallons Requested </b></label>
           <input
@@ -21,23 +22,28 @@
             name="gall-req"
             required
           />
-          <div></div>
         </p>
-            <p>Delivery Address:
-                <div id="addr1"></div> 
-                <div id="addr2"></div>
-                <div>
-                  <div id ="city"class="inline"></div><p class="inline">,</p> <div id = "state"class="inline"></div> <div id = "zipcode"class="inline"></div>
-                </div>
-            </p>
-
-            <label for delivery-date>Delivery Date: </label>
-            <input type="date" id="delivery-date" name = "delivery-date">
-
-            <div></div>
-            
-            <p class="inline">Suggested Price/Gallon: $</p> <div id="ppg" class="inline"></div>
+      
+      
+          <p>Delivery Address:</p>
       </div>
+      
+      <div>
+        <div id="addr1"></div> 
+        <div id="addr2"></div>
+
+        <div id ="city"class="inline"></div>
+        <p class="inline">,</p> 
+        <div id = "state"class="inline"></div> 
+        <div id = "zipcode"class="inline"></div>
+      </div>
+
+      <div>
+        <label for delivery-date>Delivery Date: </label>
+        <input type="date" id="delivery-date" name = "delivery-date">
+      </div>
+        
+      <p class="inline">Suggested Price/Gallon: $</p> <div id="ppg" class="inline"></div>
     </form>
 
     <script>
@@ -48,27 +54,28 @@
                 return response.json();
             })
             .then((userInfo) => {
-                //if(userInfo.users.hasOwnProperty(username)) {
-              console.log("Username Found: " + username);
-              addr1Var = userInfo.users[username].address1;
-              addr2Var = userInfo.users[username].address2;
-              cityVar = userInfo.users[username].city;
-              stateVar = userInfo.users[username].state;
-              zipcodeVar = userInfo.users[username].zipcode;
-              console.log("address1: " + addr1Var);
-              console.log("city: " + cityVar);
-              console.log("stateVar: " + stateVar);
+                if(userInfo.users.hasOwnProperty(username)) {
+                console.log("Username Found: " + username);
+                addr1Var = userInfo.users[username].address1;
+                addr2Var = userInfo.users[username].address2;
+                cityVar = userInfo.users[username].city;
+                stateVar = userInfo.users[username].state;
+                zipcodeVar = userInfo.users[username].zipcode;
+                console.log("address1: " + addr1Var);
+                console.log("city: " + cityVar);
+                console.log("stateVar: " + stateVar);
 
-              document.getElementById("addr1").innerHTML = addr1Var;
-              document.getElementById("addr2").innerHTML = addr2Var;
-              document.getElementById("city").innerHTML = cityVar;
-              document.getElementById("state").innerHTML = stateVar;
-              document.getElementById("zipcode").innerHTML = zipcodeVar;
-                
+                document.getElementById("addr1").innerHTML = addr1Var;
+                document.getElementById("addr2").innerHTML = addr2Var;
+                document.getElementById("city").innerHTML = cityVar;
+                document.getElementById("state").innerHTML = stateVar;
+                document.getElementById("zipcode").innerHTML = zipcodeVar;
+                  
 
-              let pricePerGal = Math.random();
-              pricePerGal = Math.floor(pricePerGal*1000)/1000;
-              document.getElementById("ppg").innerHTML = pricePerGal;
+                let pricePerGal = Math.random();
+                pricePerGal = Math.floor(pricePerGal*1000)/1000;
+                document.getElementById("ppg").innerHTML = pricePerGal;
+              }
             })
         }
     </script>
