@@ -4,7 +4,7 @@ function register() {
     try{
         let uname = document.querySelector(`#pword`).value
         let password =document.querySelector(`#uname`).value
-        
+        window.location.href = "ProfileManage.html";
     }
     catch(err){
        alert(err.message)
