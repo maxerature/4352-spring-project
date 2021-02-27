@@ -4,10 +4,14 @@ function register() {
     try{
         let uname = document.querySelector(`#pword`).value
         let password =document.querySelector(`#uname`).value
-        window.location.href = "ProfileManage.html";
+        if (uname != "" && password != "") {
+            window.location.href = "ProfileManage.html";
+        } else {
+            alert ("Please enter a Username and Password")
+        }
     }
     catch(err){
-       alert("err1 = " + err.message)
+       alert(err.message)
     }
 }
 
@@ -15,7 +19,7 @@ function register() {
 
 function saveProfile(){
     try{
-        location.href = "quote.html"
+        
         let errors = 0
         /*let uname = document.querySelector(`#uname`).value
         let password = document.querySelector(`#pword`).value*/
@@ -72,7 +76,7 @@ function saveProfile(){
             alert("Please fix highlighted fields")
         }
         else {
-            
+            location.href = "quote.html"
         }
     }catch(err){
         alert(err.message)
