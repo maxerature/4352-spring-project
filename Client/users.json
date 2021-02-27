@@ -12,7 +12,7 @@
         {
           "requested": 1.08,
           "delivery_address1": "The al'Thor Farm",
-          "delivery_address2" : "",
+          "delivery_address2": "",
           "city": "Emond's Field",
           "state": "Two Rivers",
           "zipcode": "00000",
@@ -23,7 +23,7 @@
         {
           "requested": 420,
           "delivery_address1": "1600 Pennsylvania Avenue, N.W.",
-          "delivery_address2" : "",
+          "delivery_address2": "",
           "city": "Washington",
           "state": "DC",
           "zipcode": "20500",
@@ -32,6 +32,15 @@
           "total": 840
         }
       ]
+    },
+    "username2": {
+      "password": "pass2",
+      "fullname": "",
+      "address1": "",
+      "address2": "",
+      "city": "",
+      "state": "",
+      "zipcode": ""
     }
   }
 }

@@ -4,7 +4,11 @@ function register() {
     try{
         let uname = document.querySelector(`#pword`).value
         let password =document.querySelector(`#uname`).value
-        window.location.href = "ProfileManage.html";
+        if (uname != "" && password != "") {
+            window.location.href = "ProfileManage.html";
+        } else {
+            alert ("Please enter a Username and Password")
+        }
     }
     catch(err){
        alert(err.message)
