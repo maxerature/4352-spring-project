@@ -11,7 +11,7 @@ button{
 .input-field {
     border-radius: 8px;
     padding: 10px 20px;
-    margin: 5px;
+    margin: 10px;
     background-color: rgb(247, 247, 247);
     text-align: center;
     position: relative;
@@ -25,7 +25,8 @@ select{
     border-radius: 8px;
 }
 
-p #registration{
+.error {
+    display: none; 
     color:rgb(121, 7, 7); 
 }
 
