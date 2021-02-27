@@ -108,6 +108,7 @@
         }
         else {
           cost = galsRequested * pricePerGal;
+          cost = Math.floor(cost*10000)/10000;
           document.getElementById("cost").innerHTML = cost;
         }
       }
@@ -130,7 +131,8 @@
               console.log(userInfoString);
               localStorage.setItem("userInfoString", userInfoString);
 
-              window.location.href = "history.html";
+              if(Date.parse(date))
+                window.location.href = "history.html";
             }
           }
         })

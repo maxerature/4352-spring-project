@@ -16,7 +16,7 @@
           "city": "Emond's Field",
           "state": "Two Rivers",
           "zipcode": "00000",
-          "delivery_date": "Saven 22, 1001 NE",
+          "delivery_date": "1245-06-22",
           "suggested_ppg": 1,
           "total": 1.08
         },
@@ -27,7 +27,7 @@
           "city": "Washington",
           "state": "DC",
           "zipcode": "20500",
-          "delivery_date": "April 20, 743 B.C",
+          "delivery_date": "4-20-395",
           "suggested_ppg": 2,
           "total": 840
         }

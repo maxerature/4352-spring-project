@@ -25,7 +25,7 @@ select{
     border-radius: 8px;
 }
 
-p #registration{
+.error-msg{
     color:rgb(121, 7, 7); 
 }
 

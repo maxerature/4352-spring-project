@@ -9,28 +9,28 @@
 <body>
     
     <h2> Please complete your profile</h2>
-    <p> * : Required</p>
+    <p class="error-msg"> * : Required</p>
     <div class = "container">
         <div class="input-container">
             <input class = "input-field" id = "fname" type="text" placeholder="First Name*"> 
             <input class = "input-field" id = "lname" type="text" placeholder="Last Name*"> 
-            <p id = "fullname-error" > (First name and last name cant be more than 50 characters)</p>
+            <p class="error-msg" id = "fullname-error" > (First name and last name cant be more than 50 characters)</p>
         </div>
         <div class = "input-container">
             <input class = "input-field" id = "address1" type = "text" placeholder = "Address 1*"> 
-            <p id = "add1-error" > (First address cant be more than 100 characters)</p>
+            <p class="error-msg" id = "add1-error" > (First address cant be more than 100 characters)</p>
             <input class = "input-field" id = "address2" type = "text" placeholder = "Address 2"> 
         </div>
         <div class = "input-container"> 
             <input class = "input-field" id = "city" type = "text" placeholder = "city*"> 
-            <p id = "city-error" > (City cant be more than 100 characters)</p>
+            <p class="error-msg" id = "city-error" > (City cant be more than 100 characters)</p>
             <select id = "state"> 
                 <option> State* </option>
                 <option> TX </option> 
             </select>
-            <p id = "state-error" > (Choose a state)</p>
+            <p class="error-msg" id = "state-error" > (Choose a state)</p>
             <input class = "input-field" id = "zipcode" type = "number" placeholder = "Zip code*">
-            <p id = "zipcode-error" > (zipcode cant be more than 100 characters)</p>
+            <p class="error-msg" id = "zipcode-error" > (zipcode cant be more than 100 characters)</p>
         </div>
         <button onclick = saveProfile()>
             save
