@@ -22,14 +22,10 @@ export default {
     res: express.Response,
     next: express.NextFunction
   ) => {
-    interface AuthReq {
-      username: string;
-      password: string;
-    }
     try {
       await AuthSchema.validateAsync(req.body);
-      const { username, password } = req.body as AuthReq;
-      //const {username, password}:string = await AuthSchema.validateAsync(req.body)
+      const { username, password } = req.body;
+
       // If username exists in db
       if (username in userInfo.users) {
         // If password matches in db
