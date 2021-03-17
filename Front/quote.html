@@ -76,7 +76,7 @@
       
       window.onload = function() {
         username = localStorage.getItem("username");
-        fetch("./users.json").then((response) => {
+        fetch("/Common/users.json").then((response) => {
           return response.json();
         }).then((userInfo) => {
           if(userInfo.users.hasOwnProperty(username)) {
@@ -118,7 +118,7 @@
 
       function submitQuote() {
         event.preventDefault();
-        fetch("./users.json").then((response) => {
+        fetch("/Common/users.json").then((response) => {
           return response.json();
         }).then((userInfo) => {
           if(userInfo.users.hasOwnProperty(username)) {
