@@ -61,6 +61,7 @@
           const content = await rawResponse.json();
 
           if (content.hasOwnProperty("success")) {
+            localStorage.setItem("username", username);
             window.location.href = content.success;
           } else if (content.hasOwnProperty("error")) {
             alert(
