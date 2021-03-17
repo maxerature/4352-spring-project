@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form id="login">
+      <div class="container">
+        <p>
+          <label for="uname"><b>Username: </b></label>
+          <input
+            class="input-field"
+            type="text"
+            id="uname"
+            placeholder="Enter Username"
+            name="uname"
+            required
+          />
+        </p>
+
+        <p>
+          <label for="psw"><b>Password: </b></label>
+          <input
+            class="input-field"
+            type="password"
+            id="psw"
+            placeholder="Enter Password"
+            name="psw"
+            required
+          />
+        </p>
+
+        <p>
+          <button onclick="AuthUser()">Login</button>
+        </p>
+
+        <p>
+          <a href="registration.html">Register</a>
+        </p>
+      </div>
+    </form>
+
+    <script>
+      function AuthUser() {
+        event.preventDefault();
+        const username = document.getElementById("uname").value;
+        const password = document.getElementById("psw").value;
+
+        (async () => {
+          const rawResponse = await fetch("http://localhost:5000/auth/login", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+          const content = await rawResponse.json();
+
+          if (content.hasOwnProperty("success")) {
+            window.location.href = content.success;
+          } else if (content.hasOwnProperty("error")) {
+            alert(
+              "Error: Login failed\nUsername does not exist, or password was typed incorrectly."
+            );
+          }
+        })();
+      }
+    </script>
+  </body>
+</html>
