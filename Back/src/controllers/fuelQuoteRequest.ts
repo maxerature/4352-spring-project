@@ -11,13 +11,12 @@ export default {
         next: express.NextFunction
     ) => {
         try {
-            console.log("Entered.");
             
             await AuthSchema.validateAsync(req.body);
             const { deliveryDate, galsRequested, pricePerGal } = req.body;
 
             if(!Date.parse(deliveryDate))
-                res.json({ error: "fuck you."});
+                res.json({ error: "error."});
 
             console.log(typeof(galsRequested));
             if(!isNaN(galsRequested)) {

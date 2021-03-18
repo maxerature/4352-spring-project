@@ -13,24 +13,16 @@ export default {
         try {
             let elements = [];
             var parsed = "";
-            console.log("Entered.");
 
             const { username } = req.body;
 
-            // userInfoString = localStorage.getItem("userInfoString");
-            // let userInfo = JSON.parse(userInfoString);
-            console.log("I'm In.");
             if(userInfo.users.hasOwnProperty(username)) {
                 for(let i=0; i< userInfo.users[username].history.length; i++) {
                     elements.push(userInfo.users[username].history[i]);
-                    console.log("pushed.");
                     parsed += "<h3>Quote #" + (i+1) + "</h3>";
-                    console.log("New entry");
                     for(let object in userInfo.users[username].history[i]) {
-                        console.log("pushing.");
                         parsed += "<b>" + object + ":</b> " + userInfo.users[username].history[i][object] + "<br>";
                     }
-                    console.log(parsed);
                 
             }
         }
