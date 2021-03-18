@@ -1,9 +1,7 @@
 import express from "express";
 import createError from "http-errors";
-import userInfo from "../../../Common/users.json";
 import { AuthSchema } from "../config/Validation/auth";
-
-let userTS:any = userInfo;
+import { AuthLogin } from "../functions/login";
 
 export default {
   login: async (
@@ -14,31 +12,7 @@ export default {
     try {
       await AuthSchema.validateAsync(req.body);
       const { username, password } = req.body;
-
-      // If username exists in db
-      if (username in userInfo.users) {
-        // If password matches in db
-        if (userTS.users[username].password == password) {
-          // If user already created profile
-          if (userTS.users[username].fullname != "") {
-            res.json({ success: "quote.html" });
-          } else {
-            res.json({ success: "ProfileManage.html" });
-          }
-        } else {
-          // error
-          res.json({
-            error:
-              "Error: Login failed\nUsername does not exist, or password was typed incorrectly.",
-          });
-        }
-      } else {
-        // error
-        res.json({
-          error:
-            "Error: Login failed\nUsername does not exist, or password was typed incorrectly.",
-        });
-      }
+      res.json(AuthLogin(username, password));
     } catch (error) {
       if (error.isJoi === true)
         return next(new createError.BadRequest("Invalid Username/Password"));

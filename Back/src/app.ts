@@ -16,13 +16,9 @@ export const startServer = () => {
   app.use(Config.Errors.Error404);
   app.use(Config.Errors.ErrorHandlder);
 
-  //   app.listen(Config.Env.server.PORT, () =>
-  //     console.log(`Server on => http://localhost:${Config.Env.server.PORT}`)
-  //   );
-
-  if (!module) {
-    app.listen(500);
-  }
+  app.listen(Config.Env.server.PORT, () =>
+    console.log(`Server on => http://localhost:${Config.Env.server.PORT}`)
+  );
 };
 
 startServer();
