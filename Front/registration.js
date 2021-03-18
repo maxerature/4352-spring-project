@@ -1,11 +1,27 @@
+const localHost = 1285;
 
 
-function register() {
+async function register() {
     try{
-        let uname = document.querySelector(`#pword`).value
-        let password =document.querySelector(`#uname`).value
+        let uname = document.querySelector(`#pword`).value;
+        let password =document.querySelector(`#uname`).value;
         if (uname != "" && password != "") {
-            window.location.href = "ProfileManage.html";
+            //Check if username already exists
+            const body = {"uname": uname, pword: password};
+            const res = await fetch(`http:/localhost:${localHost}/register`,
+            {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(body)
+            });
+            const mssg = await res.json();
+
+            if ("error" in msg) {
+                alert("Username already in-use, please choose a different one");
+            }
+            window.location.href = "login.html";
+
+           
         } else {
             alert ("Please enter a Username and Password")
         }
@@ -17,14 +33,13 @@ function register() {
 
 
 
-function saveProfile(){
+async function saveProfile(){
     try{
         
-        let errors = 0
-        /*let uname = document.querySelector(`#uname`).value
-        let password = document.querySelector(`#pword`).value*/
+        let errors = 0;
+        let uname = localStorage.getItem("username");
 
-
+        //Input validation
         let fullname = document.querySelector(`#fname`).value + "_" + document.querySelector(`#lname`).value
        
         if (fullname.length == 1 || fullname.length > 50){
@@ -72,11 +87,24 @@ function saveProfile(){
             errors = errors + 1
             zipcode.style["border"] = "3px solid orange "; 
         }
-        if(errors > 0){
-            alert("Please fix highlighted fields")
+        if(errors == 0){
+            const body = {"name": fullname, "add1": add1.value, "add2": add2.value, "city":city.value, "state": state.value, "zipcode":zipcode.value }
+            const res = await fetch(`http://localhost:${localHost}/manageProfile/${uname}`,{
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(body) 
+            });
+
+            const msg = await res.json()
+
+
+            window.location.href = "quote.html"
+            
         }
         else {
-            location.href = "quote.html"
+
+            alert("Please fix highlighted fields")
+            
         }
     }catch(err){
         alert(err.message)
