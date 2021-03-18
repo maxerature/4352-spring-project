@@ -3,20 +3,9 @@ import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import { AuthSchema } from "../config/Validation/auth";
 
-export default {
-  register: async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    try {
-      res.send("register");
-    } catch (error) {
-      if (error.isJoi === true) error.status = 422;
-      next(error);
-    }
-  },
+let userTS:any = userInfo;
 
+export default {
   login: async (
     req: express.Request,
     res: express.Response,
@@ -29,9 +18,9 @@ export default {
       // If username exists in db
       if (username in userInfo.users) {
         // If password matches in db
-        if (userInfo.users[username].password == password) {
+        if (userTS.users[username].password == password) {
           // If user already created profile
-          if (userInfo.users[username].fullname != "") {
+          if (userTS.users[username].fullname != "") {
             res.json({ success: "quote.html" });
           } else {
             res.json({ success: "ProfileManage.html" });
