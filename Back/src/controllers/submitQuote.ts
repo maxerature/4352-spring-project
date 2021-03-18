@@ -3,6 +3,8 @@ import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authQuoteSubmit";
 
+const fs = require('fs');
+
 export default {
     submitQuote: async (
         req: express.Request,
@@ -10,25 +12,31 @@ export default {
         next: express.NextFunction
     ) => {
         try {
+            console.log("I'm in.");
             await AuthSchema.validateAsync(req.body);
+            console.log("schema'd, bitch!");
             const { username, deliveryDate, galsRequested, pricePerGal, cost } = req.body;
             //If user exists
             if(username in userInfo.users) {
                 console.log("Username Found: " + username);
-                if(galsRequested<0) {
+                if(!galsRequested || galsRequested<=0) {
                     res.json({ error: "Gallons must be >0!"});
                 } else {
+                    console.log("parsing");
                     var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$userInfo.users[username].address1`,"delivery_address2":`$userInfo.users[username].address2`,"city":`$userInfo.users[username].city`,"state":`$userInfo.users[username].state`,"zipcode":`$userInfo.users[username].zipcode`,"delivery_date":`$deliveryDate`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
+                    console.log("After text");
                     let length = userInfo.users[username].history.length;
-                    //console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
-                    console.log(userInfo.users[username].history.push(JSON.parse(Str_text)));
+                    console.log("Got history");
+                    console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":userInfo.users[username].address1,"delivery_address2":userInfo.users[username].address2, "city": userInfo.users[username].city, "state": userInfo.users[username].state, "zipcode": userInfo.users[username].zipcode, "delivery_date":deliveryDate,"suggested_ppg":pricePerGal,"total":cost}));
                     console.log(userInfo)
 
                     let userInfoString = JSON.stringify(userInfo);
+                    console.log("Jsonified");
                     console.log(userInfoString);
-                    localStorage.setItem("userInfoString", userInfoString);
+                    
 
-                    res.json({success: "history.html"});
+                    console.log("Returning.");
+                    res.json({success: "history.html", string: userInfoString});
                 }
             }
             else {

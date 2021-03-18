@@ -133,26 +133,35 @@
 
       function submitQuote() {
         event.preventDefault();
-        let deliveryDate = document.getElementById("delivery-date").value;
-        let username = localStorage.getItem("username");
-        let cost = document.getElementById("cost").value;
-        (async () => {
-          const rawResponse = await fetch("http://localhost:5000/submit", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({username, deliveryDate, galsRequested, pricePerGal, cost}),
-          });
-          const contentt = await rawResponse.json();
-          if(contentt.hasOwnProperty("success")) {
-            window.location.href = contentt.success;
-          }
-          else {
-            alert(contentt.error);
-          }
-        })();
+        let cost = document.getElementById("cost").innerHTML;
+        if(isNaN(cost)) {
+          alert("Make sure \"Total Cost\" is listed!");
+        }
+        else {
+          cost = Number(cost);
+          let deliveryDate = document.getElementById("delivery-date").value;
+          
+          let username = localStorage.getItem("username");
+          console.log(cost + username + deliveryDate);
+          (async () => {
+            const rawResponse = await fetch("http://localhost:5000/submit", {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({username, deliveryDate, galsRequested, pricePerGal, cost}),
+            });
+            const contentt = await rawResponse.json();
+            if(contentt.hasOwnProperty("success")) {
+              localStorage.setItem("userInfoString", contentt.string);
+              window.location.href = contentt.success;
+            }
+            else {
+              alert(contentt.error);
+            }
+          })();
+        }
         // fetch("/Common/users.json").then((response) => {
         //   return response.json();
         // }).then((userInfo) => {
