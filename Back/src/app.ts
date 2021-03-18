@@ -6,7 +6,7 @@ import Config from "./config/index";
 import { HomeRoutes } from "./routes/home";
 import "./config/Init/initTypeORM";
 
-export const startServer = () => {
+const startServer = () => {
   const app = express();
   app.use(express.json());
   app.use(cors());
