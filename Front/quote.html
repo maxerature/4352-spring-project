@@ -44,6 +44,7 @@
           name = "delivery-date" 
           class="input-field"
           required
+          onchange="setPrice()"
           >
       </div>
         
@@ -132,27 +133,47 @@
 
       function submitQuote() {
         event.preventDefault();
-        fetch("/Common/users.json").then((response) => {
-          return response.json();
-        }).then((userInfo) => {
-          if(userInfo.users.hasOwnProperty(username)) {
-            if(!isNaN(galsRequested) && galsRequested>0) {
-              var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$addr1Var`,"delivery_address2":`$addr2Var`,"delivery_date":`$date`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
-              let lengt = userInfo.users[username].history.length;
-              let date = document.getElementById("delivery-date").value;
-
-              console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
-              console.log(userInfo);
-
-              let userInfoString = JSON.stringify(userInfo);
-              console.log(userInfoString);
-              localStorage.setItem("userInfoString", userInfoString);
-
-              if(Date.parse(date))
-                window.location.href = "history.html";
-            }
+        let deliveryDate = document.getElementById("delivery-date").value;
+        let username = localStorage.getItem("username");
+        let cost = document.getElementById("cost").value;
+        (async () => {
+          const rawResponse = await fetch("http://localhost:5000/submit", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({username, deliveryDate, galsRequested, pricePerGal, cost}),
+          });
+          const contentt = await rawResponse.json();
+          if(contentt.hasOwnProperty("success")) {
+            window.location.href = contentt.success;
           }
-        })
+          else {
+            alert(contentt.error);
+          }
+        })();
+        // fetch("/Common/users.json").then((response) => {
+        //   return response.json();
+        // }).then((userInfo) => {
+        //   if(userInfo.users.hasOwnProperty(username)) {
+        //     if(!isNaN(galsRequested) && galsRequested>0) {
+        //       var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$addr1Var`,"delivery_address2":`$addr2Var`,"delivery_date":`$date`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
+        //       let lengt = userInfo.users[username].history.length;
+        //       let date = document.getElementById("delivery-date").value;
+
+        //       console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
+        //       console.log(userInfo);
+
+        //       let userInfoString = JSON.stringify(userInfo);
+        //       console.log(userInfoString);
+        //       localStorage.setItem("userInfoString", userInfoString);
+
+        //       if(Date.parse(date))
+        //         window.location.href = "history.html";
+        //     }
+        //   }
+        // })
       }
     </script>
   </body>
