@@ -26,7 +26,7 @@ export default {
                 res.json({ addr1: addr1Var, addr2: addr2Var, city: cityVar, state: stateVar, zipCode: zipcodeVar});
             }
             else {
-                console.log("Uh oh, stinky");
+                console.log("Failure");
                 res.json({ failure: "You are not logged in."});
             }
         } catch (error) {

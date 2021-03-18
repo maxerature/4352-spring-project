@@ -32,7 +32,7 @@ export default {
                 }
             }
             else {
-                console.log("Uh oh, stinky");
+                console.log("Failure");
                 res.json({ failure: "You are not logged in."});
             }
         } catch (error) {
