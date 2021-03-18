@@ -6,6 +6,7 @@ import RegisterController from '../controllers/register'
 import FuelQuoteController from '../controllers/fuelQuote'
 import FuelRequestController from '../controllers/fuelQuoteRequest'
 import FuelSubmitController from '../controllers/submitQuote'
+import HistoryController from '../controllers/history'
 
 export const HomeRoutes = express.Router()
 
@@ -26,5 +27,7 @@ HomeRoutes.post('/quoteLoad', FuelQuoteController.populate)
 HomeRoutes.post('/request', FuelRequestController.calculate)
 
 HomeRoutes.post('/submit', FuelSubmitController.submitQuote)
+
+HomeRoutes.post('generateHistory', HistoryController.generateHistory)
 
 // Add routes using above syntax
