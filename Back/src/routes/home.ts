@@ -28,6 +28,6 @@ HomeRoutes.post('/request', FuelRequestController.calculate)
 
 HomeRoutes.post('/submit', FuelSubmitController.submitQuote)
 
-HomeRoutes.post('generateHistory', HistoryController.generateHistory)
+HomeRoutes.post('/generateHistory', HistoryController.generateHistory)
 
 // Add routes using above syntax

@@ -11,23 +11,34 @@ export default {
         next: express.NextFunction
     ) => {
         try {
+            let elements = [];
+            var parsed = "";
             console.log("Entered.");
-            
-            await AuthSchema.validateAsync(req.body);
-            const { deliveryDate, galsRequested, pricePerGal } = req.body;
 
-            if(!Date.parse(deliveryDate))
-                res.json({ error: "fuck you."});
+            const { username } = req.body;
 
-            console.log(typeof(galsRequested));
-            if(!isNaN(galsRequested)) {
-                let cost = galsRequested * pricePerGal;
-                cost = Math.floor(cost*10000)/10000;
-
-                res.json({ cost: cost});
-            } else {
-                res.json({ error: "Invalid Input."});
+            // userInfoString = localStorage.getItem("userInfoString");
+            // let userInfo = JSON.parse(userInfoString);
+            console.log("I'm In.");
+            if(userInfo.users.hasOwnProperty(username)) {
+                for(let i=0; i< userInfo.users[username].history.length; i++) {
+                    elements.push(userInfo.users[username].history[i]);
+                    console.log("pushed.");
+                    parsed += "<h3>Quote #" + (i+1) + "</h3>";
+                    console.log("New entry");
+                    for(let object in userInfo.users[username].history[i]) {
+                        console.log("pushing.");
+                        parsed += "<b>" + object + ":</b> " + userInfo.users[username].history[i][object] + "<br>";
+                    }
+                    console.log(parsed);
+                
             }
+        }
+
+        res.json({success: parsed});
+
+            
+
         } catch (error) {
             if(error.isJoi === true) {
                 console.log(typeof(req.body.deliveryDate));
