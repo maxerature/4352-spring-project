@@ -41,4 +41,15 @@ describe("Login test", () => {
         "Error: Login failed\nUsername does not exist, or password was typed incorrectly.",
     });
   });
+
+  it("Failed login with empty username and password", () => {
+    let username = "";
+    let password = "";
+
+    let result = AuthLogin(username, password);
+    expect(result).to.include({
+      error:
+        "Error: Login failed\nUsername does not exist, or password was typed incorrectly.",
+    });
+  });
 });
