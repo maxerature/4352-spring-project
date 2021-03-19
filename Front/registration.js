@@ -26,21 +26,6 @@ function register() {
                 }
             })();
         }
-            /*const res = await fetch(`http:/localhost:${localHost}/login`,
-            {
-                method: "POST",
-                headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-                    },
-                body: JSON.stringify({ username, password })
-            });
-
-            const mssg = await res.json();
-            alert("here3")
-            if (!("success" in msg)) {
-                alert("Username already in-use, please choose a different one");
-            }*/
             
 
            
@@ -98,7 +83,7 @@ function verifyInput(fullname, add1, city, state, zipcode){
 async function saveProfile(){
     try{
         
-        let uname = localStorage.getItem("username");
+        let username = localStorage.getItem("username");
 
         let fullname = document.querySelector(`#fname`).value + "_" + document.querySelector(`#lname`).value
 
@@ -115,7 +100,7 @@ async function saveProfile(){
         let errors = verifyInput(fullname, add1, city, state, zipcode); 
 
         if(errors == 0){
-            const body = {"uname": uname, "name": fullname, "add1": add1.value, "add2": add2.value, "city":city.value, "state": state.value, "zipcode":zipcode.value }
+            const body = {username, fullname, add1, add2, city, state, zipcode};
             const res = await fetch(`http://localhost:${localHost}/manageProfile`,{
                 method: "POST",
                 headers: {"Content-Type": "application/json"},

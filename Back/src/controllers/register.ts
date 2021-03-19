@@ -17,9 +17,8 @@ export default {
         res.send({error: "username already in-use"})
       }
       try{
-        userInfo.users[username] = 
-          {
-           "password": password,
+        userInfo.users[username] = {
+          "password": password,
            "fullname": null,
            "address1": null,
            "address2": null,
@@ -27,12 +26,14 @@ export default {
            "state": null,
            "zipcode": null, 
            "history": []
-         }; 
+        }; 
+        userInfo.users = userInfo.users; 
+        console.log(userInfo.users);
       }catch(err){
-        console.log(err.message)
+        console.log(err.message);
       }
       
-        res.json({ success: "quote.html" })
+        res.json({ success: "user registered" })
     } catch (error) {
       if (error.isJoi === true) error.status = 422;
       next(error);
