@@ -2,7 +2,7 @@ import express from "express";
 import createError from "http-errors";
 import { getMaxListeners } from "node:process";
 import userInfo from "../../../Common/users.json";
-import {AuthSchema} from "../config/Validation/authQuote";
+import {AuthSchema} from "../config/Validation/authQuoteLoad";
 
 let userTS:any = userInfo;
 
@@ -13,6 +13,7 @@ export default {
         next: express.NextFunction
     ) => {
         try {
+            await AuthSchema.validateAsync(req.body);
             let elements = [];
             var parsed = "";
 
@@ -25,18 +26,15 @@ export default {
                     for(let object in userTS.users[username].history[i]) {
                         parsed += "<b>" + object + ":</b> " + userTS.users[username].history[i][object] + "<br>";
                     }
-                
+                }
+                res.json({success: parsed});
+            } else {
+                res.json({ failure: "You are not logged in."});
             }
-        }
-
-        res.json({success: parsed});
-
             
-
         } catch (error) {
             if(error.isJoi === true) {
-                console.log(typeof(req.body.deliveryDate));
-                return next(new createError.BadRequest("Invalid input! " + typeof(req.body.galsRequested) + " " + typeof(req.body.deliveryDate)));
+                return next(new createError.BadRequest("Error. Invalid Username!"));
             }
             next(error);
         }

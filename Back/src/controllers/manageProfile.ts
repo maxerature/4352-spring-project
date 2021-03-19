@@ -4,6 +4,8 @@ import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authProfile";
 let userlist:any = userInfo; 
 
+let userTS:any = userInfo;
+
 export default {
     manageProfile: async (
         req: express.Request,
@@ -14,7 +16,6 @@ export default {
             try{
                 await AuthSchema.validateAsync(req.body); 
                 const {username, fullname, add1, add2, city, state, zipcode} = req.body;
-                
                 if(username in userlist.users) {
                     if(userlist.users[username].fullname != ""){
                         res.json({error: "profile already set up"});
