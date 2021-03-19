@@ -16,21 +16,21 @@ export default {
             const { deliveryDate, galsRequested, pricePerGal } = req.body;
 
             if(!Date.parse(deliveryDate))
-                res.json({ error: "error."});
+                res.json({error: "Error. Wrong date format."});
 
-            console.log(typeof(galsRequested));
-            if(!isNaN(galsRequested)) {
+            
+            else if(!isNaN(galsRequested)) {
                 let cost = galsRequested * pricePerGal;
-                cost = Math.floor(cost*10000)/10000;
+                cost = Math.floor(cost*10000)/10000;    //WILL BE REPLACED BY REAL COST CALCULATOR.
 
                 res.json({ cost: cost});
             } else {
-                res.json({ error: "Invalid Input."});
+                res.json({ error: "Error. Invalid gallons requested format."});
             }
         } catch (error) {
             if(error.isJoi === true) {
                 console.log(typeof(req.body.deliveryDate));
-                return next(new createError.BadRequest("Invalid input! " + typeof(req.body.galsRequested) + " " + typeof(req.body.deliveryDate)));
+                return next(new createError.BadRequest("Error. Invalid input!"));
             }
             next(error);
         }

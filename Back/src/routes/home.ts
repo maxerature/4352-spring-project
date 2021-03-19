@@ -26,7 +26,6 @@ HomeRoutes.post('/register', RegisterController.register)
 
 HomeRoutes.post('/manageProfile', MProfileController.manageProfile)
 
-
 HomeRoutes.post('/quoteLoad', FuelQuoteController.populate)
 
 HomeRoutes.post('/request', FuelRequestController.calculate)
