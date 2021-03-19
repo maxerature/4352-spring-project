@@ -45,6 +45,5 @@
     "ts-node-dev": "^1.0.0-pre.57",
     "tslint": "^6.1.3",
     "typescript": "^3.9.7"
-  },
-  "repository": "https://github.com/tecadmin/my-yarn-package"
+  }
 }
