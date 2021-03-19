@@ -113,7 +113,6 @@ async function saveProfile(){
 
             if ("success" in msg){
                 window.location.href = "quote.html"
-
             }
             
         }

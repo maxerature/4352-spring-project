@@ -2,6 +2,7 @@ import express from "express";
 import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import { AuthSchema } from "../config/Validation/auth";
+let userlist:any = userInfo; 
 
 export default {
   register: async (
@@ -10,30 +11,27 @@ export default {
     next: express.NextFunction
   ) => {
     try {
-      console.log("server arrive")
       await AuthSchema.validateAsync(req.body); 
       const {username, password} = req.body; 
-      if (username in userInfo.users) {
-        res.send({error: "username already in-use"})
-      }
-      try{
-        userInfo.users[username] = {
+      if (!(username in userlist.users)) {
+        userlist.users[username] = {
           "password": password,
-           "fullname": null,
-           "address1": null,
-           "address2": null,
-           "city": null,
-           "state": null,
-           "zipcode": null, 
-           "history": []
-        }; 
-        userInfo.users = userInfo.users; 
-        console.log(userInfo.users);
-      }catch(err){
-        console.log(err.message);
+            "fullname": null,
+            "address1": null,
+            "address2": null,
+            "city": null,
+            "state": null,
+            "zipcode": null, 
+            "history": null
+        }
+        res.json({ success: "user registered" })
+
+      }
+      else{
+        res.json({error: "username already in-use"})
       }
       
-        res.json({ success: "user registered" })
+      
     } catch (error) {
       if (error.isJoi === true) error.status = 422;
       next(error);
