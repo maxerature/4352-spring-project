@@ -16,13 +16,12 @@ export default {
             
                 console.log(username, fullname); 
                 if(username in userInfo.users) {
-                    userInfo.users[username].name = fullname, 
+                    userInfo.users[username].fullname = fullname; 
                     userInfo.users[username].address1 = add1; 
                     userInfo.users[username].address2 = add2; 
                     userInfo.users[username].city = city;
                     userInfo.users[username].state = state; 
                     userInfo.users[username].zipcode = zipcode;
-                    console.log(userInfo.users[username]); 
                     res.json({success: "profile input added"});
                 }
             }catch(err){

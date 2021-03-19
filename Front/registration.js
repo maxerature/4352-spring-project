@@ -110,6 +110,7 @@ async function saveProfile(){
             });
 
             const msg = await res.json()
+            alert(msg); 
 
             if ("success" in msg){
                 window.location.href = "quote.html"
