@@ -21,7 +21,7 @@ export default {
             
             else if(!isNaN(galsRequested)) {
                 let cost = galsRequested * pricePerGal;
-                cost = Math.floor(cost*10000)/10000;
+                cost = Math.floor(cost*10000)/10000;    //WILL BE REPLACED BY REAL COST CALCULATOR.
 
                 res.json({ cost: cost});
             } else {

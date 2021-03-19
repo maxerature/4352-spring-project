@@ -576,3 +576,56 @@ describe("QuoteSubmitTest", () => {
       });
   });
 });
+
+
+describe("HistoryLoadTest", () => {
+  it("Failed due to no username whatsoever", (done) => {
+    const body = {};
+    chai
+      .request(server)
+      .post("/generateHistory")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid Username!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to incorrect username", (done) => {
+    const body = {
+      username: "DEBUG_incorrect"
+    };
+    chai
+      .request(server)
+      .post("/generateHistory")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({failure: "You are not logged in."});
+        done();
+      });
+  });
+
+  it("Returned successfully", (done) => {
+    const body = {
+      username: "username1"
+    };
+    chai
+      .request(server)
+      .post("/generateHistory")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({
+          success:"<h3>Quote #1</h3><b>requested:</b> 1.08<br><b>delivery_address1:</b> The al'Thor Farm<br><b>delivery_address2:</b> <br><b>city:</b> Emond's Field<br><b>state:</b> Two Rivers<br><b>zipcode:</b> 00000<br><b>delivery_date:</b> 1245-06-22<br><b>suggested_ppg:</b> 1<br><b>total:</b> 1.08<br><h3>Quote #2</h3><b>requested:</b> 420<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 4-20-395<br><b>suggested_ppg:</b> 2<br><b>total:</b> 840<br><h3>Quote #3</h3><b>requested:</b> 23<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 2021-03-01<br><b>suggested_ppg:</b> 0.245<br><b>total:</b> 5.635<br><h3>Quote #4</h3><b>requested:</b> 21<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 2021-03-02<br><b>suggested_ppg:</b> 0.763<br><b>total:</b> 16.023<br><h3>Quote #5</h3><b>requested:</b> 10<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 10-10-2019<br><b>suggested_ppg:</b> 10<br><b>total:</b> 100<br>"
+        });
+        done();
+      });
+  });
+});
