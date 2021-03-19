@@ -3,6 +3,7 @@ import Config from '../config/enviormentVariables'
 import Settings from '../settings.json'
 import LoginController from '../controllers/login'
 import RegisterController from '../controllers/register'
+import MProfileController from '../controllers/manageProfile'
 import FuelQuoteController from '../controllers/fuelQuote'
 import FuelRequestController from '../controllers/fuelQuoteRequest'
 import FuelSubmitController from '../controllers/submitQuote'
@@ -21,6 +22,8 @@ HomeRoutes.get('/', async (req, res, next) => {
 HomeRoutes.post('/login', LoginController.login)
 
 HomeRoutes.post('/register', RegisterController.register)
+
+HomeRoutes.post('/manageProfile', MProfileController.manageProfile)
 
 HomeRoutes.post('/quoteLoad', FuelQuoteController.populate)
 

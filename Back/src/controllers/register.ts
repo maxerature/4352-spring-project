@@ -10,10 +10,34 @@ export default {
     next: express.NextFunction
   ) => {
     try {
-      res.send("register");
+      console.log("server arrive")
+      await AuthSchema.validateAsync(req.body); 
+      const {username, password} = req.body; 
+      if (username in userInfo.users) {
+        res.send({error: "username already in-use"})
+      }
+      try{
+        userInfo.users[username] = {
+          "password": password,
+           "fullname": null,
+           "address1": null,
+           "address2": null,
+           "city": null,
+           "state": null,
+           "zipcode": null, 
+           "history": []
+        }; 
+        userInfo.users = userInfo.users; 
+        console.log(userInfo.users);
+      }catch(err){
+        console.log(err.message);
+      }
+      
+        res.json({ success: "user registered" })
     } catch (error) {
       if (error.isJoi === true) error.status = 422;
       next(error);
     }
   },
 };
+
