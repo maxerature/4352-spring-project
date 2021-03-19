@@ -4,7 +4,7 @@ import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authQuote";
 
 export default {
-    populate: async (
+    manageProfile: async (
         req: express.Request,
         res: express.Response,
         next: express.NextFunction

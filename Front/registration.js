@@ -1,33 +1,53 @@
-const localHost = 1285;
+const localHost = 5000;
 
 
-async function register() {
+function register() {
     try{
-        let uname = document.querySelector(`#pword`).value;
-        let password =document.querySelector(`#uname`).value;
-        if (uname != "" && password != "") {
+        let username = document.querySelector(`#uname`).value;
+        let password =document.querySelector(`#pword`).value;
+        if (username != "" && password != "") {
             //Check if username already exists
-            const body = {"uname": uname, pword: password};
-            const res = await fetch(`http:/localhost:${localHost}/register`,
+
+            (async () => {
+                const rawResponse = await fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+                });
+                const content = await rawResponse.json();
+
+                if (content.hasOwnProperty("success")) {
+                    window.location.href = "login.html";
+                } else if (content.hasOwnProperty("error")) {
+                    alert("Username already in-use, please choose a different one");
+                }
+            })();
+        }
+            /*const res = await fetch(`http:/localhost:${localHost}/login`,
             {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(body)
+                headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+                    },
+                body: JSON.stringify({ username, password })
             });
-            const mssg = await res.json();
 
+            const mssg = await res.json();
+            alert("here3")
             if (!("success" in msg)) {
                 alert("Username already in-use, please choose a different one");
-            }
-            window.location.href = "login.html";
+            }*/
+            
 
            
-        } else {
-            alert ("Please enter a Username and Password")
-        }
+    
     }
     catch(err){
-       alert(err.message)
+       alert("error:" + err.message)
     }
 }
 
