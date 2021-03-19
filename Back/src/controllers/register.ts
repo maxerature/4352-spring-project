@@ -17,13 +17,13 @@ export default {
       if (!(username in userlist.users)) {
         userlist.users[username] = {
           "password": password,
-            "fullname": null,
-            "address1": null,
-            "address2": null,
-            "city": null,
-            "state": null,
-            "zipcode": null, 
-            "history": null
+            "fullname": "",
+            "address1": "",
+            "address2": "",
+            "city": "",
+            "state": "",
+            "zipcode": "", 
+            "history": []
         }
         res.json({ success: "user registered" })
 
