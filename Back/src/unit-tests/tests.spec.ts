@@ -1,6 +1,7 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
 import server from "../app";
+import userInfo from "../../../Common/users.json";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -667,7 +668,8 @@ describe("QuoteSubmitTest", () => {
         expect(res).have.status(200);
         expect(res.body).to.eql({
           success: "history.html",
-          string: `{"users":{"username1":{"password":"pass1","fullname":"fname1","address1":"1600 Pennsylvania Avenue, N.W.","address2":"","city":"Washington","state":"DC","zipcode":"20500","history":[{"requested":1.08,"delivery_address1":"The al'Thor Farm","delivery_address2":"","city":"Emond's Field","state":"Two Rivers","zipcode":"00000","delivery_date":"1245-06-22","suggested_ppg":1,"total":1.08},{"requested":420,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"4-20-395","suggested_ppg":2,"total":840},{"requested":23,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"2021-03-01","suggested_ppg":0.245,"total":5.635},{"requested":21,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"2021-03-02","suggested_ppg":0.763,"total":16.023},{"requested":10,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"10-10-2019","suggested_ppg":10,"total":100}]},"username2":{"password":"pass2","fullname":"","address1":"","address2":"","city":"","state":"","zipcode":""}}}`
+          string: JSON.stringify(userInfo)
+          // string: `{"users":{"username1":{"password":"pass1","fullname":"fname1","address1":"1600 Pennsylvania Avenue, N.W.","address2":"","city":"Washington","state":"DC","zipcode":"20500","history":[{"requested":1.08,"delivery_address1":"The al'Thor Farm","delivery_address2":"","city":"Emond's Field","state":"Two Rivers","zipcode":"00000","delivery_date":"1245-06-22","suggested_ppg":1,"total":1.08},{"requested":420,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"4-20-395","suggested_ppg":2,"total":840},{"requested":23,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"2021-03-01","suggested_ppg":0.245,"total":5.635},{"requested":21,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"2021-03-02","suggested_ppg":0.763,"total":16.023},{"requested":10,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"10-10-2019","suggested_ppg":10,"total":100}]},"username2":{"password":"pass2","fullname":"","address1":"","address2":"","city":"","state":"","zipcode":""}}}`
         });
         done();
       });
