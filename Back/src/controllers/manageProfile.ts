@@ -4,7 +4,6 @@ import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authProfile";
 let userlist:any = userInfo; 
 
-let userTS:any = userInfo;
 
 export default {
     manageProfile: async (
