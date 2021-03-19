@@ -98,7 +98,9 @@ async function saveProfile(){
         let zipcode = document.querySelector(`#zipcode`).value
 
         let errors = verifyInput(fullname, add1, city, state, zipcode); 
-
+        if(add2 == ""){
+            add2 = add1; 
+        }
         if(errors == 0){
             const body = {username, fullname, add1, add2, city, state, zipcode};
             const res = await fetch(`http://localhost:${localHost}/manageProfile`,{
