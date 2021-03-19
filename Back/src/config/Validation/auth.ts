@@ -1,6 +1,6 @@
-import Joi from 'joi'
+import Joi from "joi";
 
 export const AuthSchema = Joi.object({
-  username: Joi.string().required(),
-  password: Joi.string().required()
-})
+  username: Joi.string().required().min(3).max(20),
+  password: Joi.string().required().min(3).max(20),
+});
