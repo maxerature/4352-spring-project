@@ -9,6 +9,7 @@ import FuelRequestController from '../controllers/fuelQuoteRequest'
 import FuelSubmitController from '../controllers/submitQuote'
 import HistoryController from '../controllers/history'
 
+
 export const HomeRoutes = express.Router()
 
 HomeRoutes.get('/', async (req, res, next) => {
