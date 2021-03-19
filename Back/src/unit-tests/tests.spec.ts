@@ -99,3 +99,84 @@ describe("Login test", () => {
       });
   });
 });
+
+
+describe("QuoteLoadTest", () => {
+  it("Failed due to no username whatsoever", (done) => {
+    const body = {};
+    chai
+      .request(server)
+      .post("/quoteLoad")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid Username",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+
+
+  it("Failed due to empty username", (done) => {
+    const body = {
+      username: "",
+    };
+    chai
+      .request(server)
+      .post("/quoteLoad")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid Username",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Error returns due to incorrect username", (done) => {
+    const body = {
+      username: "DEBUG_incorrect",
+    };
+    chai
+      .request(server)
+      .post("/quoteLoad")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({ error: "You are in an incorrect account." });
+        done();
+      });
+  });
+
+  it("Loads Successfully do to correct username.", (done) => {
+    const body = {
+      username: "username1",
+    };
+    chai
+      .request(server)
+      .post("/quoteLoad")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({ 
+          "addr1": "1600 Pennsylvania Avenue, N.W.",
+          "addr2": "",
+          "city": "Washington",
+          "state": "DC",
+          "zipCode": "20500"
+        });
+        done();
+      });
+  });
+
+
+});

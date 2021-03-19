@@ -40,7 +40,8 @@
     "redis": "^3.0.2",
     "request": "^2.88.2",
     "sequelize": "^6.3.4",
-    "typeorm": "^0.2.31"
+    "typeorm": "^0.2.31",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
