@@ -3,6 +3,8 @@ import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authProfile";
 
+let userTS:any = userInfo;
+
 export default {
     manageProfile: async (
         req: express.Request,
@@ -16,12 +18,12 @@ export default {
             
                 console.log(username, fullname); 
                 if(username in userInfo.users) {
-                    userInfo.users[username].fullname = fullname; 
-                    userInfo.users[username].address1 = add1; 
-                    userInfo.users[username].address2 = add2; 
-                    userInfo.users[username].city = city;
-                    userInfo.users[username].state = state; 
-                    userInfo.users[username].zipcode = zipcode;
+                    userTS.userInfo.users[username].fullname = fullname; 
+                    userTS.userInfo.users[username].address1 = add1; 
+                    userTS.userInfo.users[username].address2 = add2; 
+                    userTS.userInfo.users[username].city = city;
+                    userTS.userInfo.users[username].state = state; 
+                    userTS.userInfo.users[username].zipcode = zipcode;
                     res.json({success: "profile input added"});
                 }
             }catch(err){

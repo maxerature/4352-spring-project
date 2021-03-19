@@ -3,6 +3,8 @@ import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import { AuthSchema } from "../config/Validation/auth";
 
+let userTS:any = userInfo;
+
 export default {
   register: async (
     req: express.Request,
@@ -16,8 +18,12 @@ export default {
       if (username in userInfo.users) {
         res.send({error: "username already in-use"})
       }
+      interface CustomType {
+        [key: string]: any;
+        key1: string;
+      }
       try{
-        userInfo.users[username] = {
+        userTS.userInfo.users[username] = {
           "password": password,
            "fullname": null,
            "address1": null,

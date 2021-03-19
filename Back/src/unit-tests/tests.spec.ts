@@ -177,6 +177,225 @@ describe("QuoteLoadTest", () => {
         done();
       });
   });
+});
 
+describe("QuoteCalPriceTest", () => {
+  it("Failed due to no parameters", (done) => {
+    const body = {};
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
 
+  it("Failed due to missing parameters (pricePerGal)", (done) => {
+    const body = {
+      deliveryDate:"10-2-2019", 
+      galsRequested:12
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to missing parameters (galsRequested)", (done) => {
+    const body = {
+      deliveryDate:"10-2-2019", 
+      pricePerGal: 12.03
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to missing parameters (deliveryDate)", (done) => {
+    const body = {
+      galsRequested:12,
+      pricePerGal: 1
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to missing parameters (deliveryDate, pricePerGal)", (done) => {
+    const body = {
+      galsRequested:12
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to missing parameters (galsRequested, pricePerGal)", (done) => {
+    const body = {
+      deliveryDate:"10-2-2019", 
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to missing parameters (deliveryDate, galsRequested)", (done) => {
+    const body = {
+      priceperGal: 2
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to incorrect deliveryDate format", (done) => {
+    const body = {
+      deliveryDate:"eleventeen", 
+      galsRequested: 10,
+      pricePerGal: 10
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({error: "Error. Wrong date format."});
+        done();
+      });
+  });
+
+  it("Failed due to incorrect gallons requested format", (done) => {
+    const body = {
+      deliveryDate:"10-10-2019", 
+      galsRequested: "a",
+      pricePerGal: 10
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Failed due to incorrect price per gallon format", (done) => {
+    const body = {
+      deliveryDate:"10-10-2019", 
+      galsRequested: 10,
+      pricePerGal: "a"
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(400);
+        expect(res.body).to.eql({
+          error: {
+            message: "Error. Invalid input!",
+            status: 400,
+          },
+        });
+        done();
+      });
+  });
+
+  it("Successfully returned a price", (done) => {
+    const body = {
+      deliveryDate:"10-10-2019", 
+      galsRequested: 10,
+      pricePerGal: 10
+    };
+    chai
+      .request(server)
+      .post("/request")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({cost:100});
+        done();
+      });
+  });
 });
