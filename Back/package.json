@@ -1,14 +1,14 @@
 {
-  "name": "my-package",
+  "name": "api",
   "version": "1.0.0",
-  "description": "Test package",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev -T src/app.ts",
     "test": "mocha -r ts-node/register src/unit-tests/*.ts"
   },
   "keywords": [],
-  "author": "Lynn",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
