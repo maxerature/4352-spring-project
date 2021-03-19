@@ -28,7 +28,6 @@ export default {
             }catch(err){
                 console.log(err.message)
             }
-            console.log(userInfo.users[username]);
         } catch (error) {
             if(error.isJoi === true) {
                 return next(new createError.BadRequest("Error."));
