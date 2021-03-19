@@ -26,7 +26,6 @@ export default {
                     console.log(userTS.users[username].history.push({"requested":galsRequested, "delivery_address1":userTS.users[username].address1,"delivery_address2":userTS.users[username].address2, "city": userTS.users[username].city, "state": userTS.users[username].state, "zipcode": userTS.users[username].zipcode, "delivery_date":deliveryDate,"suggested_ppg":pricePerGal,"total":cost}));
 
                     let userInfoString = JSON.stringify(userInfo);
-                    console.log(userInfoString);
                     
 
                     res.json({success: "history.html", string: userInfoString});
@@ -37,7 +36,7 @@ export default {
             }
         } catch (error) {
             if(error.isJoi === true) {
-                return next(new createError.BadRequest("Error."));
+                return next(new createError.BadRequest("Error. Invalid input."));
                 next(error);
             }
         }
