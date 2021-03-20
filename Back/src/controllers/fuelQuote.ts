@@ -30,7 +30,6 @@ export default {
         } catch (error) {
             if(error.isJoi === true) {
                 return next(new createError.BadRequest("Error. Invalid Username"));
-                next(error);
             }
         }
     }
