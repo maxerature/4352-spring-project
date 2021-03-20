@@ -12,28 +12,24 @@
 
     <div id="history"></div>
     <script>
+        let elements = [];
+        var parsed = "";
         window.onload = function() {
         username = localStorage.getItem("username");
-        
-        (async () => {
-          const rawResponse = await fetch("http://localhost:5000/generateHistory", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({username}),
-          });
-          const contentt = await rawResponse.json();
-          if(contentt.hasOwnProperty("success")) {
-            document.getElementById("history").innerHTML = contentt.success;
-          }
-          else {
-            alert(contentt.error);
-          }
-        })();
+        userInfoString = localStorage.getItem("userInfoString");
+        let userInfo = JSON.parse(userInfoString);
+        console.log(userInfoString);
+        if(userInfo.users.hasOwnProperty(username)) {
+            for(let i=0; i< userInfo.users[username].history.length; i++) {
+                elements.push(userInfo.users[username].history[i]);
 
-        
+                parsed += "<h3>Quote #" + (i+1) + "</h3>";
+                for(object in userInfo.users[username].history[i]) {
+                    parsed += "<b>" + object + ":</b> " + userInfo.users[username].history[i][object] + "<br>";
+                }
+            document.getElementById("history").innerHTML = parsed;
+            }
+        }
     }
     </script>
     <p>

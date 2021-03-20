@@ -30,28 +30,6 @@
           "delivery_date": "4-20-395",
           "suggested_ppg": 2,
           "total": 840
-        },
-        {
-          "requested": 23,
-          "delivery_address1": "1600 Pennsylvania Avenue, N.W.",
-          "delivery_address2": "",
-          "city": "Washington",
-          "state": "DC",
-          "zipcode": "20500",
-          "delivery_date": "2021-03-01",
-          "suggested_ppg": 0.245,
-          "total": 5.635
-        },
-        {
-          "requested": 21,
-          "delivery_address1": "1600 Pennsylvania Avenue, N.W.",
-          "delivery_address2": "",
-          "city": "Washington",
-          "state": "DC",
-          "zipcode": "20500",
-          "delivery_date": "2021-03-02",
-          "suggested_ppg": 0.763,
-          "total": 16.023
         }
       ]
     },
