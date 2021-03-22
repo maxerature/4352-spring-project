@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href = "Style.css">
+    <title>Fuel Quote History</title>
+  </head>
+  <body>
+    <h1>Fuel Quote History</h1>
+
+    <div id="history"></div>
+    <script>
+        let elements = [];
+        var parsed = "";
+        window.onload = function() {
+        username = localStorage.getItem("username");
+        userInfoString = localStorage.getItem("userInfoString");
+        let userInfo = JSON.parse(userInfoString);
+        console.log(userInfoString);
+        if(userInfo.users.hasOwnProperty(username)) {
+            for(let i=0; i< userInfo.users[username].history.length; i++) {
+                elements.push(userInfo.users[username].history[i]);
+
+                parsed += "<h3>Quote #" + (i+1) + "</h3>";
+                for(object in userInfo.users[username].history[i]) {
+                    parsed += "<b>" + object + ":</b> " + userInfo.users[username].history[i][object] + "<br>";
+                }
+            document.getElementById("history").innerHTML = parsed;
+            }
+        }
+    }
+    </script>
+    <p>
+      <a href="quote.html">Back to Fuel Quote Form</a>
+    </p>
+  </body>

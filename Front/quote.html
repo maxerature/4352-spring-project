@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href = "Style.css">
+    <title>Fuel Quote Form</title>
+  </head>
+  <body>
+    <h1>Fuel Quote Form</h1>
+    
+    <form id="fuel-quote">
+      <div>
+        <p>
+          <label for="gallreq"><b>Gallons Requested </b></label>
+          <input
+            class="input-field"
+            type="number"
+            id="gallreq"
+            placeholder="Gallons"
+            name="gall-req"
+            required
+            onchange="setPrice()"
+          />
+        </p>
+      </div>
+      
+      <div>
+        <p>Delivery Address:</p>
+        <div id="addr1"></div> 
+        <div id="addr2"></div>
+
+        <div id ="city"class="inline"></div>
+        <p class="inline">,</p> 
+        <div id = "state"class="inline"></div> 
+        <div id = "zipcode"class="inline"></div>
+      </div>
+
+      <div>
+        <label for delivery-date>Delivery Date: </label>
+        <input type="date" 
+          id="delivery-date" 
+          name = "delivery-date" 
+          class="input-field"
+          required
+          >
+      </div>
+        
+      <div>
+        <p class="inline">Suggested Price/Gallon: $</p> 
+        <div id="ppg" class="inline"></div>
+      </div>
+
+      <div id="price-output">
+        <p class="inline">Total Cost: </p>
+        <div id="cost" class="inline" class="price-output"></div>
+      </div>
+
+      <button onclick="submitQuote()">Submit</button>
+
+      <p><a href="ProfileManage.html">Manage Profile</a></p>
+      <p><a href="login.html">Logout</a></p>
+    </form>
+
+    <script>
+      let pricePerGal;
+      let addr1Var;
+      let addr2Var;
+      let cityVar;
+      let stateVar;
+      let zipcodeVar;
+      let cost;
+      let galsRequested;
+      let username;
+      
+      window.onload = function() {
+        username = localStorage.getItem("username");
+        fetch("/Common/users.json").then((response) => {
+          return response.json();
+        }).then((userInfo) => {
+          if(userInfo.users.hasOwnProperty(username)) {
+            console.log("Username Found: " + username);
+            addr1Var = userInfo.users[username].address1;
+            addr2Var = userInfo.users[username].address2;
+            cityVar = userInfo.users[username].city;
+            stateVar = userInfo.users[username].state;
+            zipcodeVar = userInfo.users[username].zipcode;
+            console.log("address1: " + addr1Var);
+            console.log("city: " + cityVar);
+            console.log("stateVar: " + stateVar);
+
+            document.getElementById("addr1").innerHTML = addr1Var;
+            document.getElementById("addr2").innerHTML = addr2Var;
+            document.getElementById("city").innerHTML = cityVar;
+            document.getElementById("state").innerHTML = stateVar;
+            document.getElementById("zipcode").innerHTML = zipcodeVar;
+                  
+
+            pricePerGal = Math.random();
+            pricePerGal = Math.floor(pricePerGal*1000)/1000;
+            document.getElementById("ppg").innerHTML = pricePerGal;
+          }
+        })
+      }
+
+      function setPrice() {
+        galsRequested = document.getElementById("gallreq").value;
+        if(isNaN(galsRequested)) {
+          alert("Gallons requested must be a number!");
+        }
+        else {
+          cost = galsRequested * pricePerGal;
+          cost = Math.floor(cost*10000)/10000;
+          document.getElementById("cost").innerHTML = cost;
+        }
+      }
+
+      function submitQuote() {
+        event.preventDefault();
+        fetch("/Common/users.json").then((response) => {
+          return response.json();
+        }).then((userInfo) => {
+          if(userInfo.users.hasOwnProperty(username)) {
+            if(!isNaN(galsRequested) && galsRequested>0) {
+              var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$addr1Var`,"delivery_address2":`$addr2Var`,"delivery_date":`$date`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
+              let lengt = userInfo.users[username].history.length;
+              let date = document.getElementById("delivery-date").value;
+
+              console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
+              console.log(userInfo);
+
+              let userInfoString = JSON.stringify(userInfo);
+              console.log(userInfoString);
+              localStorage.setItem("userInfoString", userInfoString);
+
+              if(Date.parse(date))
+                window.location.href = "history.html";
+            }
+          }
+        })
+      }
+    </script>
+  </body>
+</html>
