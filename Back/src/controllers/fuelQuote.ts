@@ -20,7 +20,7 @@ export default {
             var mysql = require('mysql2');
 
             console.log("past sql");
-            var con = mysql.createConnection({
+            var con = await mysql.createConnection({
                 host: "localhost",
                 user: "root",
                 password: "password",
