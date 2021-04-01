@@ -1,7 +1,7 @@
 import express from "express";
 import createError from "http-errors";
 import { AuthSchema } from "../config/Validation/auth";
-import MySQL from "../MySQL/database";
+import MySQL from "../config/Init/initTypeMySQL";
 
 let users: any = {};
 MySQL.query("SELECT * FROM users", function (err, result, fields) {
