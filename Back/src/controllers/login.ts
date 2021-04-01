@@ -27,7 +27,6 @@ export default {
       }
       // If username exists in db
       if (username in userInfo) {
-        console.log("match");
         // If password matches in db
         if (userInfo[username].password == password) {
           // If user already created profile
