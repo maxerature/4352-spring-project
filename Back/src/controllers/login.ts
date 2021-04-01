@@ -18,13 +18,13 @@ export default {
     next: express.NextFunction
   ) => {
     try {
+      await AuthSchema.validateAsync(req.body);
+      const { username, password } = req.body;
       for (let i of Object.keys(users)) {
         userInfo[users[i].username] = {};
         userInfo[users[i].username]["password"] = users[i].password;
         userInfo[users[i].username]["fullname"] = users[i].fullname;
       }
-      await AuthSchema.validateAsync(req.body);
-      const { username, password } = req.body;
       // If username exists in db
       if (username in userInfo) {
         console.log("match");
