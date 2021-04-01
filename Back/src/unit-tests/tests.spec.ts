@@ -9,25 +9,6 @@ const expect = chai.expect;
 // Run test with: yarn run test
 
 describe("Login test", () => {
-  it("Connect to DB", (done) => {
-    const body = {
-      username: "Connect",
-      password: "to DB",
-    };
-    chai
-      .request(server)
-      .post("/login")
-      .send(body)
-      .end((err, res) => {
-        expect(res).have.status(200);
-        expect(res.body).to.eql({
-          error:
-            "Error: Login failed\nUsername does not exist, or password was typed incorrectly.",
-        });
-        done();
-      });
-  });
-
   it("Successful login to the quote form", (done) => {
     const body = {
       username: "user1",

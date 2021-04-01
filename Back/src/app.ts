@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import Config from "./config/index";
 import { HomeRoutes } from "./routes/home";
-import "./config/Init/initTypeORM";
+import "./config/Init/initTypeMySQL"
 
 const app = express();
 app.use(express.json());
