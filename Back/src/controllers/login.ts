@@ -1,9 +1,15 @@
 import express from "express";
 import createError from "http-errors";
 import { AuthSchema } from "../config/Validation/auth";
-import userInfo from "../../../Common/users.json";
+import MySQL from "../MySQL/database";
 
-let userTS: any = userInfo;
+let users: any = {};
+MySQL.query("SELECT * FROM users", function (err, result, fields) {
+  if (err) throw err;
+  users = result;
+});
+
+let userInfo: any = {};
 
 export default {
   login: async (
@@ -14,12 +20,17 @@ export default {
     try {
       await AuthSchema.validateAsync(req.body);
       const { username, password } = req.body;
+      for (let i of Object.keys(users)) {
+        userInfo[users[i].username] = {};
+        userInfo[users[i].username]["password"] = users[i].password;
+        userInfo[users[i].username]["fullname"] = users[i].fullname;
+      }
       // If username exists in db
-      if (username in userInfo.users) {
+      if (username in userInfo) {
         // If password matches in db
-        if (userTS.users[username].password == password) {
+        if (userInfo[username].password == password) {
           // If user already created profile
-          if (userTS.users[username].fullname != "") {
+          if (userInfo[username].fullname != "") {
             res.json({ success: "quote.html" });
           } else {
             res.json({ success: "ProfileManage.html" });
