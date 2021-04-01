@@ -3,13 +3,13 @@ import createError from "http-errors";
 import { AuthSchema } from "../config/Validation/auth";
 import MySQL from "../MySQL/database";
 
-let userInfo: any = {};
-let users: any;
-
+let users: any = {};
 MySQL.query("SELECT * FROM users", function (err, result, fields) {
   if (err) throw err;
   users = result;
 });
+
+let userInfo: any = {};
 
 export default {
   login: async (
@@ -18,15 +18,14 @@ export default {
     next: express.NextFunction
   ) => {
     try {
-      for (let i of users) {
-        userInfo[i.username] = {};
-        userInfo[i.username]["password"] = i.password;
-        userInfo[i.username]["fullname"] = i.fullname;
+      for (let i of Object.keys(users)) {
+        userInfo[users[i].username] = {};
+        userInfo[users[i].username]["password"] = users[i].password;
+        userInfo[users[i].username]["fullname"] = users[i].fullname;
       }
       await AuthSchema.validateAsync(req.body);
       const { username, password } = req.body;
       // If username exists in db
-      console.log("Input = ", username, "In DB = ", Object.keys(userInfo)[0]);
       if (username in userInfo) {
         console.log("match");
         // If password matches in db
