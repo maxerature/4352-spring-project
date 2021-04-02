@@ -1,6 +1,7 @@
 const localHost = 5000;
 
 
+
 function register() {
     try{
         let username = document.querySelector(`#uname`).value;
@@ -34,6 +35,51 @@ function register() {
     catch(err){
        alert("error:" + err.message)
     }
+}
+
+
+function fetchProfile(){
+    //let username = localStorage.getItem("username");
+    let username = "username1";
+    (async () => {
+        const rawResponse = await fetch(`http://localhost:5000/manageProfile/${username}`);
+        const content = await rawResponse.json();
+        document.querySelector("#Profile").innerHTML += `
+        <div class="input-container">
+            <input class = "input-field" id = "fname" type="text" placeholder="First Name*"> 
+            <input class = "input-field" id = "lname" type="text" placeholder="Last Name*"> 
+            <p class = "error" id = "fullname-error" > (First name and last name cant be more than 50 characters)</p>
+        </div>
+        <div class = "input-container">
+            <input class = "input-field" id = "address1" type = "text" placeholder = "Address 1*"> 
+            <p class = "error" id = "add1-error" > (First address cant be more than 100 characters)</p>
+            <input class = "input-field" id = "address2" type = "text" placeholder = "Address 2"> 
+        </div>
+        <div class = "input-container"> 
+            <input class = "input-field" id = "city" type = "text" placeholder = "city*"> 
+            <p class = "error" id = "city-error" > (City cant be more than 100 characters)</p>
+            <select id = "state"> 
+                <option> State* </option>
+                <option> TX </option> 
+        </select>
+            <p class = "error" id = "state-error" > (Choose a state)</p>
+            <input class = "input-field" id = "zipcode" type = "number" placeholder = "Zip code*">
+            <p class = "error" id = "zipcode-error" > (zipcode cant be more than 100 characters)</p>
+        </div>`
+        if (!content.hasOwnProperty("None")) {
+            document.querySelector(`#fname`).value = content.name;
+            document.querySelector(`#lname`).value = content.name;
+            document.querySelector(`#address1`).value = content.add1;
+            if(content.add2 != ""){
+                document.querySelector(`#add2`).value = content.add2;
+            }
+            
+            document.querySelector(`#city`).value = content.city;
+            document.querySelector(`#state`).value = content.state;
+            document.querySelector(`#zipcode`).value = content.zipcode;
+        }
+    })();
+
 }
 
 function verifyInput(fullname, add1, city, state, zipcode){
