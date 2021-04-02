@@ -16,28 +16,98 @@ export default {
         try {
             await AuthSchema.validateAsync(req.body);
             const { username, deliveryDate, galsRequested, pricePerGal, cost } = req.body;
-            //If user exists
-            if(username in userInfo.users) {
-                if(!galsRequested || galsRequested<=0) {
-                    res.json({ error: "Gallons must be >0!"});
-                } else {
-                    var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$userInfo.users[username].address1`,"delivery_address2":`$userInfo.users[username].address2`,"city":`$userInfo.users[username].city`,"state":`$userInfo.users[username].state`,"zipcode":`$userInfo.users[username].zipcode`,"delivery_date":`$deliveryDate`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
-                    let length = userTS.users[username].history.length;
-                    console.log(userTS.users[username].history.push({"requested":galsRequested, "delivery_address1":userTS.users[username].address1,"delivery_address2":userTS.users[username].address2, "city": userTS.users[username].city, "state": userTS.users[username].state, "zipcode": userTS.users[username].zipcode, "delivery_date":deliveryDate,"suggested_ppg":pricePerGal,"total":cost}));
 
-                    let userInfoString = JSON.stringify(userInfo);
-                    
+            console.log(deliveryDate);
 
-                    res.json({success: "history.html", string: userInfoString});
-                }
-            }
-            else {
-                res.json({ failure: "You are not logged in."});
-            }
-        } catch (error) {
+            var mysql = require('mysql2');
+
+            console.log("past sql");
+            var con = await mysql.createConnection({
+                host: "localhost",
+                user: "root",
+                password: "password",
+                port: 3306,
+                database: "softwareproject"
+            });
+            console.log("created connection");
+
+            //Check if user exists
+
+            let query = "SELECT userID\n\
+                FROM Users\n\
+                WHERE username = \"" + username + "\";";
+            console.log(query);
+
+
+            con.connect(function(err) {
+                if (err) throw err;
+                console.log("Connected!");
+                con.query(query, function (err, result) {
+                    if (err) throw err;
+                    console.log("Result: " + result);
+                    if(result == null || result == '') {
+                        res.json({error: "You are in an incorrect account."});
+                    }
+
+                    else {
+                        console.log("Got return!");
+                        console.log(result);
+                        let userid = result[0].userID;
+                        
+                        if(!galsRequested || galsRequested<=0) {
+                            res.json({ error: "Gallons must be >0!"});
+                        } else {
+
+                            query = "SELECT addressID\n\
+                            FROM Addresses\n\
+                            WHERE\n\
+                                Addresses.active = true\n\
+                                AND userID = " + userid + ";";
+                                
+                            con.connect(function(err) {
+                                if (err) throw err;
+                                console.log("Connected!");
+                                con.query(query, function (err, result) {
+                                    if (err) throw err;
+                                    console.log("Result: " + result);
+                                    console.log("Got return!");
+                                    console.log(result);
+                                    query = "INSERT INTO History (\n\
+                                        gallonsRequested,\n\
+                                        deliveryDate,\n\
+                                        pricePerGallon,\n\
+                                        totalPrice,\n\
+                                        userID,\n\
+                                        addressID)\n\
+                                    VALUES (\n\
+                                        " + galsRequested + ",\n\
+                                        \"" + deliveryDate + "\",\n\
+                                        " + pricePerGal + ",\n\
+                                        " + cost + ",\n\
+                                        " + userid + ",\n\
+                                        " + result[0].addressID + ");";
+
+                                    console.log(query);
+
+                                    con.connect(function(err) {
+                                        if (err) throw err;
+                                        console.log("Connected!");
+                                        con.query(query, function (err, result) {
+                                            if (err) throw err;
+                                            console.log(result);
+                                            res.json({success: "history.html"});
+                                        });
+                                    }); 
+                                });
+                            });
+                        }
+                    }
+                }); 
+            });
+        } catch(error) {
             if(error.isJoi === true) {
                 return next(new createError.BadRequest("Error. Invalid input."));
             }
         }
-    }
+    } 
 }
