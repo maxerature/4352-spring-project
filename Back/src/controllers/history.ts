@@ -76,18 +76,6 @@ export default {
                                 if(err) throw err;
 
                                 console.log(result);
-//                                 let parsed = "";
-//                                 let count=0;
-//                                 for(let object of result) {
-//                                     parsed += "<h2>Quote #" + (++count) + "</h2><br>";
-//                                     parsed += `<b>Gallons Requested:</b> ${object.gallonsRequested}<br>\
-// <b>Price Per Gallon:</b> \$${object.pricePerGallon}<br>\
-// <b>Total Price:</b> \$${object.totalPrice}<br>\
-// <h3>Address Delivered To</h3>
-// ${object.address1}<br>\
-// ${object.address2}<br>\
-// ${object.city}, ${object.state}, ${object.zipcode}<br><br>`;
-//                                 }
                                 let parsed = `<table style='width:100%'>\n\
     <tr>\n\
         <th><b>Delivery Date</b></th>\n\
