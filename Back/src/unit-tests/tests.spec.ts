@@ -176,6 +176,7 @@ describe("Manage Profile test", () => {
       });
   });
 });
+
 describe("QuoteLoadTest", () => {
   it("Failed due to no username whatsoever", (done) => {
     const body = {};
@@ -230,9 +231,9 @@ describe("QuoteLoadTest", () => {
       });
   });
 
-  it("Loads Successfully do to correct username.", (done) => {
+  it("Loads Successfully due to correct username.", (done) => {
     const body = {
-      username: "username1",
+      username: "DEBUG_USER",
     };
     chai
       .request(server)
@@ -241,11 +242,11 @@ describe("QuoteLoadTest", () => {
       .end((err, res) => {
         expect(res).have.status(200);
         expect(res.body).to.eql({
-          addr1: "1600 Pennsylvania Avenue, N.W.",
-          addr2: "",
-          city: "Washington",
-          state: "DC",
-          zipCode: "20500",
+          addr1: "DEBUG MAIN ADDRESS",
+          addr2: "DEBUG SECOND ADDRESS",
+          city: "DEBUG CITY",
+          state: "DEBUG STATE",
+          zipCode: 1,
         });
         done();
       });
@@ -413,7 +414,7 @@ describe("QuoteCalPriceTest", () => {
 
   it("Failed due to incorrect gallons requested format", (done) => {
     const body = {
-      deliveryDate: "10-10-2019",
+      deliveryDate: "2019-10-10",
       galsRequested: "a",
       pricePerGal: 10,
     };
@@ -435,7 +436,7 @@ describe("QuoteCalPriceTest", () => {
 
   it("Failed due to incorrect price per gallon format", (done) => {
     const body = {
-      deliveryDate: "10-10-2019",
+      deliveryDate: "2019-10-10",
       galsRequested: 10,
       pricePerGal: "a",
     };
@@ -457,7 +458,7 @@ describe("QuoteCalPriceTest", () => {
 
   it("Successfully returned a price", (done) => {
     const body = {
-      deliveryDate: "10-10-2019",
+      deliveryDate: "2019-10-10",
       galsRequested: 10,
       pricePerGal: 10,
     };
@@ -591,7 +592,7 @@ describe("QuoteSubmitTest", () => {
   it("Failed due to incorrect username", (done) => {
     const body = {
       username: "DEBUG_incorrect",
-      deliveryDate: "10-10-2019",
+      deliveryDate: "2019-10-10",
       galsRequested: 10,
       pricePerGal: 10,
       cost: 100,
@@ -602,15 +603,15 @@ describe("QuoteSubmitTest", () => {
       .send(body)
       .end((err, res) => {
         expect(res).have.status(200);
-        expect(res.body).to.eql({ failure: "You are not logged in." });
+        expect(res.body).to.eql({ error: "You are in an incorrect account." });
         done();
       });
   });
 
   it("Failed due to invalid gallons", (done) => {
     const body = {
-      username: "username1",
-      deliveryDate: "10-10-2019",
+      username: "DEBUG_USER",
+      deliveryDate: "2019-10-10",
       galsRequested: -10,
       pricePerGal: 10,
       cost: 100,
@@ -628,8 +629,8 @@ describe("QuoteSubmitTest", () => {
 
   it("Successfully returned new history", (done) => {
     const body = {
-      username: "username1",
-      deliveryDate: "10-10-2019",
+      username: "DEBUG_USER",
+      deliveryDate: "2019-10-10",
       galsRequested: 10,
       pricePerGal: 10,
       cost: 100,
@@ -641,9 +642,7 @@ describe("QuoteSubmitTest", () => {
       .end((err, res) => {
         expect(res).have.status(200);
         expect(res.body).to.eql({
-          success: "history.html",
-          string: JSON.stringify(userInfo),
-          // string: `{"users":{"username1":{"password":"pass1","fullname":"fname1","address1":"1600 Pennsylvania Avenue, N.W.","address2":"","city":"Washington","state":"DC","zipcode":"20500","history":[{"requested":1.08,"delivery_address1":"The al'Thor Farm","delivery_address2":"","city":"Emond's Field","state":"Two Rivers","zipcode":"00000","delivery_date":"1245-06-22","suggested_ppg":1,"total":1.08},{"requested":420,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"4-20-395","suggested_ppg":2,"total":840},{"requested":23,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"2021-03-01","suggested_ppg":0.245,"total":5.635},{"requested":21,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"2021-03-02","suggested_ppg":0.763,"total":16.023},{"requested":10,"delivery_address1":"1600 Pennsylvania Avenue, N.W.","delivery_address2":"","city":"Washington","state":"DC","zipcode":"20500","delivery_date":"10-10-2019","suggested_ppg":10,"total":100}]},"username2":{"password":"pass2","fullname":"","address1":"","address2":"","city":"","state":"","zipcode":""}}}`
+          success: "history.html"
         });
         done();
       });
@@ -679,14 +678,14 @@ describe("HistoryLoadTest", () => {
       .send(body)
       .end((err, res) => {
         expect(res).have.status(200);
-        expect(res.body).to.eql({ failure: "You are not logged in." });
+        expect(res.body).to.eql({ error: "You are in an incorrect account." });
         done();
       });
   });
 
   it("Returned successfully", (done) => {
     const body = {
-      username: "username1",
+      username: "DEBUG_USER_RO",
     };
     chai
       .request(server)
@@ -695,9 +694,9 @@ describe("HistoryLoadTest", () => {
       .end((err, res) => {
         expect(res).have.status(200);
         expect(res.body).to.eql({
-          success:
-            "<h3>Quote #1</h3><b>requested:</b> 1.08<br><b>delivery_address1:</b> The al'Thor Farm<br><b>delivery_address2:</b> <br><b>city:</b> Emond's Field<br><b>state:</b> Two Rivers<br><b>zipcode:</b> 00000<br><b>delivery_date:</b> 1245-06-22<br><b>suggested_ppg:</b> 1<br><b>total:</b> 1.08<br><h3>Quote #2</h3><b>requested:</b> 420<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 4-20-395<br><b>suggested_ppg:</b> 2<br><b>total:</b> 840<br><h3>Quote #3</h3><b>requested:</b> 23<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 2021-03-01<br><b>suggested_ppg:</b> 0.245<br><b>total:</b> 5.635<br><h3>Quote #4</h3><b>requested:</b> 21<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 2021-03-02<br><b>suggested_ppg:</b> 0.763<br><b>total:</b> 16.023<br><h3>Quote #5</h3><b>requested:</b> 10<br><b>delivery_address1:</b> 1600 Pennsylvania Avenue, N.W.<br><b>delivery_address2:</b> <br><b>city:</b> Washington<br><b>state:</b> DC<br><b>zipcode:</b> 20500<br><b>delivery_date:</b> 10-10-2019<br><b>suggested_ppg:</b> 10<br><b>total:</b> 100<br>",
+          success: "<table style='width:100%'>\n    <tr>\n        <th><b>Delivery Date</b></th>\n        <th><b>Gallons Requested</b></th>\n        <th><b>Price Per Gallon</b></th>\n        <th><b>Total Price</b</th>\n        <th><b>Address</b></th>\n    </tr>\n <tr>\n        <th> Mon Oct 12 1012 00:00:00 GMT-0550 (Central Daylight Time) </th>\n        <th> 0.5 </th>n        <th>$1</th>\n        <th>$0.5</th>\n        <th>DEBUG_RO MAIN ADDRESS<br>        DEBUG_RO SECOND ADDRESS<br>        DEBUG_RO CITY, DEBUG_RO STATE, 4<br><br></th>\n    </tr></table>",
         });
+        console.log("shit");
         done();
       });
   });

@@ -17,11 +17,9 @@ export default {
             await AuthSchema.validateAsync(req.body);
             const { username, deliveryDate, galsRequested, pricePerGal, cost } = req.body;
 
-            console.log(deliveryDate);
 
             var mysql = require('mysql2');
 
-            console.log("past sql");
             var con = await mysql.createConnection({
                 host: "localhost",
                 user: "root",
@@ -29,29 +27,23 @@ export default {
                 port: 3306,
                 database: "softwareproject"
             });
-            console.log("created connection");
 
             //Check if user exists
 
             let query = "SELECT userID\n\
                 FROM Users\n\
                 WHERE username = \"" + username + "\";";
-            console.log(query);
 
 
             con.connect(function(err) {
                 if (err) throw err;
-                console.log("Connected!");
                 con.query(query, function (err, result) {
                     if (err) throw err;
-                    console.log("Result: " + result);
                     if(result == null || result == '') {
                         res.json({error: "You are in an incorrect account."});
                     }
 
                     else {
-                        console.log("Got return!");
-                        console.log(result);
                         let userid = result[0].userID;
                         
                         if(!galsRequested || galsRequested<=0) {
@@ -66,12 +58,8 @@ export default {
                                 
                             con.connect(function(err) {
                                 if (err) throw err;
-                                console.log("Connected!");
                                 con.query(query, function (err, result) {
                                     if (err) throw err;
-                                    console.log("Result: " + result);
-                                    console.log("Got return!");
-                                    console.log(result);
                                     query = "INSERT INTO History (\n\
                                         gallonsRequested,\n\
                                         deliveryDate,\n\
@@ -87,14 +75,11 @@ export default {
                                         " + userid + ",\n\
                                         " + result[0].addressID + ");";
 
-                                    console.log(query);
 
                                     con.connect(function(err) {
                                         if (err) throw err;
-                                        console.log("Connected!");
                                         con.query(query, function (err, result) {
                                             if (err) throw err;
-                                            console.log(result);
                                             res.json({success: "history.html"});
                                         });
                                     }); 

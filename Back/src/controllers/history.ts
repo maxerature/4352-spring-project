@@ -22,7 +22,6 @@ export default {
 
             var mysql = require('mysql2');
 
-            console.log("past sql");
             var con = await mysql.createConnection({
                 host: "localhost",
                 user: "root",
@@ -30,29 +29,24 @@ export default {
                 port: 3306,
                 database: "softwareproject"
             });
-            console.log("created connection");
 
             //Check if user exists
 
             let query = "SELECT userID\n\
                 FROM Users\n\
                 WHERE username = \"" + username + "\";";
-            console.log(query);
 
 
             con.connect(function(err) {
                 if (err) throw err;
-                console.log("Connected!");
                 con.query(query, function (err, result) {
                     if (err) throw err;
-                    console.log("Result: " + result);
                     if(result == null || result == '') {
                         res.json({error: "You are in an incorrect account."});
                     }
 
                     else {
-                        console.log("Got return!");
-                        console.log(result);
+
 
                         query = `SELECT\n\ 
                             gallonsRequested,\n\
@@ -68,14 +62,13 @@ export default {
                         FROM History\n\
                         INNER JOIN Addresses ON History.addressID = Addresses.addressID\n\
                         WHERE History.userID = ` + result[0].userID + ";";
-                        console.log(query);
+
 
                         con.connect(function(err) {
                             if(err) throw err;
                             con.query(query, function (err, result) {
                                 if(err) throw err;
 
-                                console.log(result);
                                 let parsed = `<table style='width:100%'>\n\
     <tr>\n\
         <th><b>Delivery Date</b></th>\n\
@@ -96,31 +89,12 @@ export default {
     </tr>`
                                 }
                                 parsed += "</table>";
-                                console.log(parsed);
                                 res.json({success: parsed});
                             });
                         });
                     }
                 });
             });
-
-
-
-
-
-        //     if(userTS.users.hasOwnProperty(username)) {
-        //         for(let i=0; i< userTS.users[username].history.length; i++) {
-        //             elements.push(userTS.users[username].history[i]);
-        //             parsed += "<h3>Quote #" + (i+1) + "</h3>";
-        //             for(let object in userTS.users[username].history[i]) {
-        //                 parsed += "<b>" + object + ":</b> " + userTS.users[username].history[i][object] + "<br>";
-        //             }
-        //         }
-        //         res.json({success: parsed});
-        //     } else {
-        //         res.json({ failure: "You are not logged in."});
-        //     }
-            
         } catch (error) {
             if(error.isJoi === true) {
                 return next(new createError.BadRequest("Error. Invalid Username!"));

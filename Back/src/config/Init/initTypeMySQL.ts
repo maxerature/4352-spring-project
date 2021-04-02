@@ -5,7 +5,7 @@ var MySQL = createPool({
   user: "root",
   password: "password",
   port: 3306,
-  database: "sys",
+  database: "softwareproject",
 });
 
 MySQL.getConnection((err) => {
