@@ -1,6 +1,6 @@
 {
   "users": {
-    "username1": {
+    "user1": {
       "password": "pass1",
       "fullname": "fname1",
       "address1": "1600 Pennsylvania Avenue, N.W.",

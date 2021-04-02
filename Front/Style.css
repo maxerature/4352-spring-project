@@ -33,3 +33,7 @@ select{
 .inline{
     display: inline-block;
 }
+
+table, th{
+    border: 1px solid black;
+}
