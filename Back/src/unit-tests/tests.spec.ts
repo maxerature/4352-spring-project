@@ -27,8 +27,8 @@ describe("Login test", () => {
 
   it("Successful login to profile management", (done) => {
     const body = {
-      username: "user2",
-      password: "pass2",
+      username: "DEBUG_NOFN",
+      password: "DEBUG_PASS",
     };
     chai
       .request(server)
