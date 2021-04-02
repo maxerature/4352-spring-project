@@ -3,6 +3,9 @@ import { stat } from "fs";
 import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authProfile";
+
+import MySQL from "../MySQL/database"
+
 let userlist:any = userInfo; 
 
 
@@ -16,16 +19,16 @@ export default {
             try{
                 const {id} = req.params;
                 let username:string = id; 
-                console.log(username)
-                if(username in userlist.users && userlist.users[username].fullname != "") {
-                    let fullname = userlist.users[username].fullname; 
-                    let add1 = userlist.users[username].address1;
-                    let add2 = userlist.users[username].address2;
-                    let city = userlist.users[username].city;
-                    let state = userlist.users[username].state; 
-                    let zipcode = userlist.users[username].zipcode;
-                    let user = {"name": fullname, "add1": add1, "add2":add2, "city":city, "state":state, "zipcode":zipcode};
-                    res.json(user);
+                let user = MySQL.query(`SELECT * FROM users WHERE username like ${username}`);
+                if(user.fullname != "") {
+                    let fullname:String = user.fullname; 
+                    let add1 = user.address1;
+                    let add2 = user.address2;
+                    let city = user.city;
+                    let state = user.state; 
+                    let zipcode = user.zipcode;
+                    let found_user = {"name": fullname, "add1": add1, "add2":add2, "city":city, "state":state, "zipcode":zipcode};
+                    res.json(found_user);
                 }
                 else{
                     res.json({None:""});
@@ -51,18 +54,7 @@ export default {
             try{
                 await AuthSchema.validateAsync(req.body); 
                 const {username, fullname, add1, add2, city, state, zipcode} = req.body;
-                if(username in userlist.users) {
-                    userlist.users[username].fullname = fullname; 
-                    userlist.users[username].address1 = add1; 
-                    userlist.users[username].address2 = add2; 
-                    userlist.users[username].city = city;
-                    userlist.users[username].state = state; 
-                    userlist.users[username].zipcode = zipcode;
-                    res.json({success: "profile input added"});
-                }
-                else{
-                    res.json({error:"username doesnt exist"});
-                }
+                let result = MySQL.query(`INSERT INTO users(${fullname}, ${add1}, ${add2}, ${city}, ${state}, ${zipcode}) VALUES(fullname, add1, add2, city, state, zipcode) WHERE username like ${username}`);
             }catch(err){
                 console.log(err.message)
             }

@@ -2,6 +2,7 @@ import express from "express";
 import createError from "http-errors";
 import userInfo from "../../../Common/users.json";
 import { AuthSchema } from "../config/Validation/auth";
+import MySQL from "../MySQL/database";
 
 let userlist:any = userInfo; 
 
@@ -14,19 +15,10 @@ export default {
     try {
       await AuthSchema.validateAsync(req.body); 
       const {username, password} = req.body; 
-      if (!(username in userlist.users)) {
-        userlist.users[username] = {
-          "password": password,
-            "fullname": "",
-            "address1": "",
-            "address2": "",
-            "city": "",
-            "state": "",
-            "zipcode": "", 
-            "history": []
-        }
+      let exist = MySQL.query(`SELECT * FROM users WHERE username like ${username}`); 
+      if (exist == "") {
+        let result = MySQL.query(`INSERT INTO users(username, password) VALUES(${username}, ${password})`); 
         res.json({ success: "user registered" })
-
       }
       else{
         res.json({error: "username already in-use"})
