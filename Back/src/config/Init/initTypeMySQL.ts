@@ -9,7 +9,7 @@ var MySQL = createPool({
 });
 
 MySQL.getConnection((err) => {
-  if (err) throw console.error("Unable to connec to the database:", err);
+  if (err) throw console.error("Unable to connect to the database:", err);
   console.log("MySQL Connected.");
 });
 process.on("SIGINT", async () => {
