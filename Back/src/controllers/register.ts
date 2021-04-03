@@ -1,9 +1,7 @@
 import express from "express";
 import createError from "http-errors";
-import userInfo from "../../../Common/users.json";
 import { AuthSchema } from "../config/Validation/auth";
 
-let userlist:any = userInfo; 
 
 export default {
   register: async (
@@ -12,6 +10,8 @@ export default {
     next: express.NextFunction
   ) => {
     try {
+      console.log("here"); 
+
       await AuthSchema.validateAsync(req.body); 
       const {username, password} = req.body; 
 
@@ -27,16 +27,14 @@ export default {
       });
       console.log("created connection");
 
-
-      let query = `SELECT * FROM Users WHERE username = ${username}`;
+      let query = `SELECT * FROM Users WHERE username = \"${username}\";`;
       console.log(query);
-
 
       con.connect((err) => {
         if (err) throw err;
         console.log("Connected!");
         con.query(query, (err, result) => {
-            if (err) throw err;
+            if (err) console.log(err);
             console.log("Result: " + result);
             if(result == null || result == '') {
                 con.query(`INSERT INTO Users(username, password) VALUES(${username}, ${password})`, (err:any, result:any)=>{

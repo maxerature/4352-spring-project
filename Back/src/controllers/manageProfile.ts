@@ -1,6 +1,7 @@
 import express from "express";
 import { stat } from "fs";
 import createError from "http-errors";
+import { STATES } from "mongoose";
 import userInfo from "../../../Common/users.json";
 import {AuthSchema} from "../config/Validation/authProfile";
 
@@ -16,8 +17,8 @@ export default {
     ) => {
         try {
             try{
-                const {id} = req.params;
-                let username:string = id; 
+                const {username} = req.params;
+                
 
                 var mysql = require('mysql2');
 
@@ -32,7 +33,7 @@ export default {
                 console.log("created connection");
 
 
-                let query = `SELECT * FROM Users AS U JOIN Addresses AS A ON U.UserID == A.UserID  WHERE username = ${username}`;
+                let query = `SELECT * FROM Users AS U JOIN Addresses AS A ON A.UserID = U.UserID  WHERE username = \"${username}\" AND active = 1`;
                 console.log(query);
 
 
@@ -41,25 +42,22 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
-                        console.log("Result: " + result);
-                        if(result.address1 == null || result.address1 == '') {
+                        console.log("Result: " + result[0].fullname);
+                        if(result[0].address1 == null || result[0].address1 == '') {
                             res.json({None:""});
                         }
                         else {
-                            con.query(`SELECT * FROM Users AS U JOIN Addresses AS A ON U.UserID == A.UserID  WHERE username like ${username}`, (err:any, result:any, fields:any) => {
-                                if (err) throw err;
-                                let user = result;
-                                if(user.fullname != "") {
-                                    let fullname:String = user.fullname; 
-                                    let add1 = user.address1;
-                                    let add2 = user.address2;
-                                    let city = user.city;
-                                    let state = user.state; 
-                                    let zipcode = user.zipcode;
-                                    let found_user = {"name": fullname, "add1": add1, "add2":add2, "city":city, "state":state, "zipcode":zipcode};
-                                    res.json(found_user);
-                                }
-                            });
+                            let user = result[0];
+                            let fullname:String = user.fullname; 
+                            let add1 = user.address1;
+                            let add2 = user.address2;
+                            let state = user.state; 
+                            let city = user.city;
+                            let zipcode = user.zipcode;
+                            let found_user = {"name": fullname, "add1": add1, "add2":add2, "city":city, "state": state, "zipcode":zipcode};
+                            console.log(found_user);
+                            res.json(found_user);
+                                
                         }
                     });
                 });
@@ -99,7 +97,7 @@ export default {
                 console.log("created connection");
 
 
-                let query = `INSERT INTO Users(fullname) VALUES(${fullname}) WHERE username = ${username}`;
+                let query = `UPDATE users SET fullname =  \"${fullname}\" WHERE username = \"${username}\";`;
                 console.log(query);
 
 
@@ -108,10 +106,16 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
-                        con.query(`INSERT INTO users(address1, address2, city, state, zipcode) VALUES(${add1}, ${add2}, ${city}, ${state}, ${zipcode}) WHERE username like ${username}`, (err:any, result:any, fields:any) => {
+                        con.query(`SELECT * FROM users WHERE username = \"${username}\"`, (err:any, result:any, fields:any) => {
                             if (err) throw err; 
-                            res.json({success : "Profile Saved"})
-                        }); 
+                            let q = `INSERT INTO addresses(address1, address2, city, state, zipcode, userID, active) VALUES(\"${add1}\", \"${add2}\", \"${city}\", \"${state}\", ${zipcode}, ${result[0].userID},1);`; 
+                            console.log(q); 
+                            con.query(q, (err:any, result:any, fields:any) => {
+                                if (err) throw err; 
+                                res.json({success : "Profile Saved"})
+                            }); 
+                        });
+                    
                     });
                 }); 
                  
