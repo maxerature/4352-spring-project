@@ -91,7 +91,6 @@ function fetchProfile(){
         const content = await rawResponse.json();
         if (!content.hasOwnProperty("None")) {
             fullname = content.name.split("_");
-            alert(content.state); 
             document.querySelector(`#state`).value = content.state;
             document.querySelector(`#fname`).value = fullname[0];
             document.querySelector(`#lname`).value = fullname[1];
