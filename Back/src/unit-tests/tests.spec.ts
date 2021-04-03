@@ -105,7 +105,7 @@ describe("Registration test", () => {
   it("Failed registration with existing username", (done) => {
     const body = {
       username: "username1",
-      password: "pass123",
+      password: "pass1",
     };
     chai
       .request(server)
@@ -119,7 +119,7 @@ describe("Registration test", () => {
   });
   it("Successful registration with unique username", (done) => {
     const body = {
-      username: "lmalhaim",
+      username: "lmalhaim12",
       password: "pass123",
     };
     chai
@@ -135,9 +135,39 @@ describe("Registration test", () => {
 });
 
 describe("Manage Profile test", () => {
-  it("Successful manage profile when username is first time logging-in", (done) => {
+  it("Successful Fetch profile when profile exists", (done) => {
+    chai
+      .request(server)
+      .get(`/manageProfile/${"user1"}`)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.have.property("name");
+        done();
+      });
+  });
+  it("Failed Fetch profile when profile not initiated", (done) => {
+    chai
+      .request(server)
+      .get(`/manageProfile/${"lmalhaim"}`)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.have.property("None");
+        done();
+      });
+  });
+  it("Failed Fetch profile when profile doesnt exists", (done) => {
+    chai
+      .request(server)
+      .get(`/manageProfile/${"NotUser"}`)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.have.property("None");
+        done();
+      });
+  });
+  it("Successful manage profile when username is logged in", (done) => {
     const body = {
-      username: "username2",
+      username: "username1",
       fullname: "Lia_Johnson",
       add1: "510 richmond avenu",
       add2: "apt 515",
@@ -151,30 +181,11 @@ describe("Manage Profile test", () => {
       .send(body)
       .end((err, res) => {
         expect(res).have.status(200);
-        expect(res.body).to.eql({ success: "profile input added" });
+        expect(res.body).to.eql({ success: "Profile Saved" });
         done();
       });
   });
-  it("Failed to manage profile when username doesnt exist/not logged in", (done) => {
-    const body = {
-      username: "liaJohnson",
-      fullname: "Lia_Johnson",
-      add1: "510 richmond avenu",
-      add2: "apt 515",
-      city: "Houston",
-      state: "TX",
-      zipcode: 77006,
-    };
-    chai
-      .request(server)
-      .post("/manageProfile")
-      .send(body)
-      .end((err, res) => {
-        expect(res).have.status(200);
-        expect(res.body).to.eql({ error: "username doesnt exist" });
-        done();
-      });
-  });
+  
 });
 
 describe("QuoteLoadTest", () => {

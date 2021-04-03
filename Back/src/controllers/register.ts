@@ -35,7 +35,6 @@ export default {
         console.log("Connected!");
         con.query(query, (err, result) => {
             if (err) console.log(err);
-            console.log("Result: " + result);
             if(result == null || result == '') {
                 con.query(`INSERT INTO Users(username, password, fullname) VALUES(\"${username}\", \"${password}\", "NAN")`, (err:any, result:any)=>{
                   if (err) throw err; 
