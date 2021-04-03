@@ -22,7 +22,9 @@ HomeRoutes.get('/', async (req, res, next) => {
 
 HomeRoutes.post('/login', LoginController.login)
 
-HomeRoutes.post('/register', RegisterController.register)
+HomeRoutes.post('/register', RegisterController.register
+)
+HomeRoutes.get('/getStates', MProfileController.getStates)
 
 HomeRoutes.post('/manageProfile', MProfileController.manageProfile)
 

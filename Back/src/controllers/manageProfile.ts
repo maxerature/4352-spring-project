@@ -10,6 +10,47 @@ let userlist:any = userInfo;
 
 
 export default {
+    getStates: async (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
+        try {
+                var mysql = require('mysql2');
+
+                console.log("past sql");
+                var con = await mysql.createConnection({
+                    host: "localhost",
+                    user: "root",
+                    password: "password",
+                    port: 3306,
+                    database: "softwareproject"
+                });
+                console.log("created connection");
+
+
+                let query = `SELECT * FROM states`;
+                console.log(query);
+
+
+                con.connect((err) => {
+                    if (err) throw err;
+                    console.log("Connected!");
+                    con.query(query, (err, result) => {
+                        if (err) throw err;
+                        console.log(result);
+                        res.json(result);
+                    });
+                });
+            
+        } catch (error) {
+            if(error.isJoi === true) {
+                return next(new createError.BadRequest("Error."));
+                next(error);
+            }
+        }
+    },
+
     getProfile: async (
         req: express.Request,
         res: express.Response,

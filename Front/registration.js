@@ -37,10 +37,9 @@ function register() {
     }
 }
 
-
-function fetchProfile(){
-    let username = localStorage.getItem("username");
-    document.querySelector("#Profile").innerHTML += `
+function fetchStates(){
+    try{
+        document.querySelector("#Profile").innerHTML += `
         <div class="input-container">
             <input class = "input-field" id = "fname" type="text" placeholder="First Name*"> 
             <input class = "input-field" id = "lname" type="text" placeholder="Last Name*"> 
@@ -56,12 +55,33 @@ function fetchProfile(){
             <p class = "error" id = "city-error" > (City cant be more than 100 characters)</p>
             <select id = "state"> 
                 <option> State* </option>
-                <option> TX </option> 
         </select>
             <p class = "error" id = "state-error" > (Choose a state)</p>
             <input class = "input-field" id = "zipcode" type = "number" placeholder = "Zip code*">
             <p class = "error" id = "zipcode-error" > (zipcode cant be more than 100 characters)</p>
         </div>`;
+        (async () => {
+            const rawResponse = await fetch(`http://localhost:5000/getStates`,{
+                method: "GET",
+                headers: {"Content-Type": "application/json"}
+            });
+            const content = await rawResponse.json();
+            if (!content.hasOwnProperty("None")) {
+                for (var i = 0; i < content.length;i++){
+                    var option = document.createElement("option"); 
+                    option.text = `${content[i].state}`; 
+                    document.querySelector(`#state`).add(option);
+                }
+            }
+        })();
+    }catch(err){
+        console.log(err.message);
+    }
+}
+
+function fetchProfile(){
+    let username = localStorage.getItem("username");
+   
     (async () => {
         const rawResponse = await fetch(`http://localhost:5000/manageProfile/${username}`,{
             method: "GET",
