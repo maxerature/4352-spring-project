@@ -13,13 +13,11 @@ export default {
       await AuthSchema.validateAsync(req.body);
       const { username, password } = req.body;
 
+      console.log(`MD5(` + password + `);`)
+
       let currUser: any;
       MySQL.query(
-        'SELECT fullname FROM users WHERE username = "' +
-          username +
-          '" AND users.password = "' +
-          password +
-          '";',
+        `SELECT fullname FROM users WHERE username = \"${username}\" AND users.password = MD5(\"${password}\");`,
         function (err, result, fields) {
           if (err) throw err;
           currUser = result;
