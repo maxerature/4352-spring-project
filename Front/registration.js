@@ -16,7 +16,7 @@ function register() {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, password }),
+                    body: JSON.stringify({ username, password })
                 });
                 const content = await rawResponse.json();
 
@@ -74,6 +74,7 @@ function fetchStates(){
                 }
             }
         })();
+        fetchProfile();
     }catch(err){
         console.log(err.message);
     }
@@ -90,6 +91,8 @@ function fetchProfile(){
         const content = await rawResponse.json();
         if (!content.hasOwnProperty("None")) {
             fullname = content.name.split("_");
+            alert(content.state); 
+            document.querySelector(`#state`).value = content.state;
             document.querySelector(`#fname`).value = fullname[0];
             document.querySelector(`#lname`).value = fullname[1];
             document.querySelector(`#address1`).value = content.add1;
@@ -97,7 +100,6 @@ function fetchProfile(){
                 document.querySelector(`#address2`).value = content.add2;
             }
             document.querySelector(`#city`).value = content.city;
-            document.querySelector(`#state`).value = content.state;
             document.querySelector(`#zipcode`).value = content.zipcode;
         }
     })();

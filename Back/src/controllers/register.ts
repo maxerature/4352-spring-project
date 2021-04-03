@@ -27,7 +27,7 @@ export default {
       });
       console.log("created connection");
 
-      let query = `SELECT * FROM Users WHERE username = \"${username}\";`;
+      let query = `SELECT * FROM users WHERE username = \"${username}\";`;
       console.log(query);
 
       con.connect((err) => {
@@ -37,7 +37,7 @@ export default {
             if (err) console.log(err);
             console.log("Result: " + result);
             if(result == null || result == '') {
-                con.query(`INSERT INTO Users(username, password) VALUES(${username}, ${password})`, (err:any, result:any)=>{
+                con.query(`INSERT INTO Users(username, password, fullname) VALUES(\"${username}\", \"${password}\", "NAN")`, (err:any, result:any)=>{
                   if (err) throw err; 
                   res.json({ success: "user registered" })
                 }); 

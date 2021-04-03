@@ -38,7 +38,6 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
-                        console.log(result);
                         res.json(result);
                     });
                 });
@@ -149,11 +148,14 @@ export default {
                         if (err) throw err;
                         con.query(`SELECT * FROM users WHERE username = \"${username}\"`, (err:any, result:any, fields:any) => {
                             if (err) throw err; 
-                            let q = `INSERT INTO addresses(address1, address2, city, state, zipcode, userID, active) VALUES(\"${add1}\", \"${add2}\", \"${city}\", \"${state}\", ${zipcode}, ${result[0].userID},1);`; 
-                            console.log(q); 
-                            con.query(q, (err:any, result:any, fields:any) => {
+                            let userID = result[0].userID; 
+                            con.query(`UPDATE addresses SET active = 0 WHERE userID = ${userID};`, (err:any, result:any, fields:any) => {
                                 if (err) throw err; 
-                                res.json({success : "Profile Saved"})
+                                query = `INSERT INTO addresses(address1, address2, city, state, zipcode, userID, active) VALUES(\"${add1}\", \"${add2}\", \"${city}\", \"${state}\", ${zipcode}, ${userID},1);`; 
+                                con.query(query, (err:any, result:any, fields:any) => {
+                                    if (err) throw err; 
+                                    res.json({success : "Profile Saved"})
+                                }); 
                             }); 
                         });
                     
