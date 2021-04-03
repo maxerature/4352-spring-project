@@ -14,23 +14,42 @@ export default {
     try {
       await AuthSchema.validateAsync(req.body); 
       const {username, password} = req.body; 
-      if (!(username in userlist.users)) {
-        userlist.users[username] = {
-          "password": password,
-            "fullname": "",
-            "address1": "",
-            "address2": "",
-            "city": "",
-            "state": "",
-            "zipcode": "", 
-            "history": []
-        }
-        res.json({ success: "user registered" })
 
-      }
-      else{
-        res.json({error: "username already in-use"})
-      }
+      var mysql = require('mysql2');
+
+      console.log("past sql");
+      var con = await mysql.createConnection({
+          host: "localhost",
+          user: "root",
+          password: "password",
+          port: 3306,
+          database: "softwareproject"
+      });
+      console.log("created connection");
+
+
+      let query = `SELECT * FROM Users WHERE username = ${username}`;
+      console.log(query);
+
+
+      con.connect((err) => {
+        if (err) throw err;
+        console.log("Connected!");
+        con.query(query, (err, result) => {
+            if (err) throw err;
+            console.log("Result: " + result);
+            if(result == null || result == '') {
+                con.query(`INSERT INTO Users(username, password) VALUES(${username}, ${password})`, (err:any, result:any)=>{
+                  if (err) throw err; 
+                  res.json({ success: "user registered" })
+                }); 
+            }
+            else {
+              res.json({error: "username already in-use"});
+            }
+          });
+      });
+      
       
       
     } catch (error) {
@@ -39,3 +58,4 @@ export default {
     }
   },
 };
+
