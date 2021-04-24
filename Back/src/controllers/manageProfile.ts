@@ -74,6 +74,7 @@ export default {
                 console.log("created connection");
 
 
+<<<<<<< HEAD
                 let query = `\
                 SELECT *\n\ 
                 FROM Users AS U\n\ 
@@ -82,6 +83,9 @@ export default {
                 WHERE username = \"${username}\" \n\
                     AND active = 1`;
                 console.log(query);
+=======
+                let query = `SELECT * FROM Users AS U JOIN Addresses AS A ON A.UserID = U.UserID  WHERE username = \"${username}\" AND active = 1`;
+>>>>>>> ebd5c420effad1809059b9e2ebc09b5785a778dd
 
 
                 con.connect((err) => {
@@ -89,8 +93,12 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
+<<<<<<< HEAD
                         console.log(result);
                         if(!result[0]) {
+=======
+                        if(result == "") {
+>>>>>>> ebd5c420effad1809059b9e2ebc09b5785a778dd
                             res.json({None:""});
                         }
                         else {
@@ -102,7 +110,6 @@ export default {
                             let city = user.city;
                             let zipcode = user.zipcode;
                             let found_user = {"name": fullname, "add1": add1, "add2":add2, "city":city, "state": state, "zipcode":zipcode};
-                            console.log(found_user);
                             res.json(found_user);
                                 
                         }
@@ -155,18 +162,21 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
-                        con.query(`SELECT * FROM users WHERE username = \"${username}\"`, (err:any, result:any, fields:any) => {
-                            if (err) throw err; 
-                            let userID = result[0].userID; 
-                            con.query(`UPDATE addresses SET active = 0 WHERE userID = ${userID};`, (err:any, result:any, fields:any) => {
+                        if(result != null){
+                            con.query(`SELECT * FROM users WHERE username = \"${username}\"`, (err:any, result:any, fields:any) => {
                                 if (err) throw err; 
-                                query = `INSERT INTO addresses(address1, address2, city, state, zipcode, userID, active) VALUES(\"${add1}\", \"${add2}\", \"${city}\", \"${state}\", ${zipcode}, ${userID},1);`; 
-                                con.query(query, (err:any, result:any, fields:any) => {
+                                let userID = result[0].userID; 
+                                con.query(`UPDATE addresses SET active = 0 WHERE userID = ${userID};`, (err:any, result:any, fields:any) => {
                                     if (err) throw err; 
-                                    res.json({success : "Profile Saved"})
+                                    query = `INSERT INTO addresses(address1, address2, city, state, zipcode, userID, active) VALUES(\"${add1}\", \"${add2}\", \"${city}\", \"${state}\", ${zipcode}, ${userID},1);`; 
+                                    con.query(query, (err:any, result:any, fields:any) => {
+                                        if (err) throw err; 
+                                        res.json({success : "Profile Saved"})
+                                    }); 
                                 }); 
-                            }); 
-                        });
+                            });
+                        }
+                       
                     
                     });
                 }); 

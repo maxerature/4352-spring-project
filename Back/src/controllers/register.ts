@@ -35,9 +35,8 @@ export default {
         console.log("Connected!");
         con.query(query, (err, result) => {
             if (err) console.log(err);
-            console.log("Result: " + result);
             if(result == null || result == '') {
-                con.query(`INSERT INTO Users(username, password, fullname) VALUES(\"${username}\", MD5(\'${password}\'), "NAN")`, (err:any, result:any)=>{
+                con.query(`INSERT INTO Users(username, password, fullname) VALUES(\"${username}\", MD5(\'${password}\'), "")`, (err:any, result:any)=>{
                   if (err) throw err; 
                   res.json({ success: "user registered" })
                 }); 
