@@ -38,6 +38,7 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
+                        console.log(result);
                         res.json(result);
                     });
                 });
@@ -73,7 +74,13 @@ export default {
                 console.log("created connection");
 
 
-                let query = `SELECT * FROM Users AS U JOIN Addresses AS A ON A.UserID = U.UserID  WHERE username = \"${username}\" AND active = 1`;
+                let query = `\
+                SELECT *\n\ 
+                FROM Users AS U\n\ 
+                JOIN Addresses AS A \n\
+                    ON A.UserID = U.UserID\n\  
+                WHERE username = \"${username}\" \n\
+                    AND active = 1`;
                 console.log(query);
 
 
@@ -82,8 +89,8 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
-                        console.log("Result: " + result[0].fullname);
-                        if(result[0].address1 == null || result[0].address1 == '') {
+                        console.log(result);
+                        if(!result[0]) {
                             res.json({None:""});
                         }
                         else {
@@ -139,6 +146,8 @@ export default {
 
                 let query = `UPDATE users SET fullname =  \"${fullname}\" WHERE username = \"${username}\";`;
                 console.log(query);
+
+                console.log(add2);
 
 
                 con.connect((err) => {

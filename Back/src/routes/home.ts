@@ -8,6 +8,7 @@ import FuelQuoteController from '../controllers/fuelQuote'
 import FuelRequestController from '../controllers/fuelQuoteRequest'
 import FuelSubmitController from '../controllers/submitQuote'
 import HistoryController from '../controllers/history'
+import GetPPGController from '../controllers/getPPG'
 
 
 export const HomeRoutes = express.Router()
@@ -37,5 +38,7 @@ HomeRoutes.post('/request', FuelRequestController.calculate)
 HomeRoutes.post('/submit', FuelSubmitController.submitQuote)
 
 HomeRoutes.post('/generateHistory', HistoryController.generateHistory)
+
+HomeRoutes.post('/getPPG', GetPPGController.getPPG)
 
 // Add routes using above syntax

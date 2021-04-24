@@ -19,7 +19,7 @@ export default {
         function (err, result, fields) {
           if (err) throw err;
           currUser = result;
-
+          console.log(currUser);
           // Username/password do not exist
           if (currUser.length === 0)
             res.json({
@@ -27,7 +27,7 @@ export default {
                 "Error: Login failed\nUsername does not exist, or password was typed incorrectly.",
             });
           // User exists but profile has not been set up yet
-          else if (currUser[0].fullname == "")
+          else if (currUser[0].fullname == "" || currUser[0].fullname=="NAN")
             res.json({ success: "ProfileManage.html" });
           // User exists and profile has been set up
           else res.json({ success: "quote.html" });

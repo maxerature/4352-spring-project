@@ -52,6 +52,10 @@
         <p class="inline">Suggested Price/Gallon: $</p> 
         <div id="ppg" class="inline"></div>
       </div>
+      <div>
+        <p class="inline">Margin: $</p> 
+        <div id="margin" class="inline"></div>
+      </div>
 
       <div id="price-output">
         <p class="inline">Total Cost: </p>
@@ -99,14 +103,16 @@
             console.log(contentt);
             await setLoc(contentt);
           })();
-            pricePerGal = Math.random();
-            pricePerGal = Math.floor(pricePerGal*1000)/1000;
-            document.getElementById("ppg").innerHTML = pricePerGal;
+
+            document.getElementById("ppg").innerHTML = setPPG();
       }
 
-      function setPrice() {
+      async function setPrice() {
+        
         deliveryDate = document.getElementById("delivery-date").value;
         galsRequested = document.getElementById("gallreq").value;
+        await setPPG();
+        let pricePerGal = document.getElementById("ppg").innerHTML;
         if(!isNaN(galsRequested)) 
           galsRequested = Number(galsRequested);
         if(!deliveryDate) {
@@ -131,9 +137,27 @@
           
       }
 
+      function setPPG() {
+        let username = localStorage.getItem("username");
+        (async () => {
+          const rawResponse = await fetch("http://localhost:5000/getPPG", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({username, galsRequested}),
+          });
+        const contentt = await rawResponse.json();
+        document.getElementById("ppg").innerHTML = contentt.ppg;
+        document.getElementById("margin").innerHTML = contentt.margin;
+        })();
+      }
+
       function submitQuote() {
         event.preventDefault();
         let cost = document.getElementById("cost").innerHTML;
+        let pricePerGal = document.getElementById("ppg").innerHTML;
         if(isNaN(cost)) {
           alert("Make sure \"Total Cost\" is listed!");
         }
@@ -162,27 +186,6 @@
             }
           })();
         }
-        // fetch("/Common/users.json").then((response) => {
-        //   return response.json();
-        // }).then((userInfo) => {
-        //   if(userInfo.users.hasOwnProperty(username)) {
-        //     if(!isNaN(galsRequested) && galsRequested>0) {
-        //       var Str_text='{"requested":`$galsRequested`,"delivery_address1":`$addr1Var`,"delivery_address2":`$addr2Var`,"delivery_date":`$date`,"suggested_ppg":`$pricePerGal`,"total":`$cost`';
-        //       let lengt = userInfo.users[username].history.length;
-        //       let date = document.getElementById("delivery-date").value;
-
-        //       console.log(userInfo.users[username].history.push({"requested":galsRequested, "delivery_address1":addr1Var,"delivery_address2":addr2Var, "city": cityVar, "state": stateVar, "zipcode": zipcodeVar, "delivery_date":date,"suggested_ppg":pricePerGal,"total":cost}));
-        //       console.log(userInfo);
-
-        //       let userInfoString = JSON.stringify(userInfo);
-        //       console.log(userInfoString);
-        //       localStorage.setItem("userInfoString", userInfoString);
-
-        //       if(Date.parse(date))
-        //         window.location.href = "history.html";
-        //     }
-        //   }
-        // })
       }
     </script>
   </body>
