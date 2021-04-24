@@ -47,14 +47,15 @@
           onchange="checkData()"
           >
       </div>
+
+      <div>
+        <p class="inline">Margin: $</p> 
+        <div id="margin" class="inline"></div>
+      </div>
         
       <div>
         <p class="inline">Suggested Price/Gallon: $</p> 
         <div id="ppg" class="inline"></div>
-      </div>
-      <div>
-        <p class="inline">Margin: $</p> 
-        <div id="margin" class="inline"></div>
       </div>
 
       <div id="price-output">
@@ -109,6 +110,8 @@
           })();
 
           document.getElementById("ppg").innerHTML = setPPG();
+          document.getElementById("ppg").style.visibility = 'hidden';
+          document.getElementById("margin").style.visibility = 'hidden';
       }
 
       async function setPrice() {
@@ -150,7 +153,7 @@
           });
         const contentt = await rawResponse.json();
         document.getElementById("ppg").innerHTML = contentt.ppg;
-        document.getElementById("margin").innerHTML = contentt.margin;
+        document.getElementById("margin").innerHTML = contentt.margin.toFixed(3);;
         })();
       }
 
@@ -199,6 +202,8 @@
       function setCostAndPPG() {
         event.preventDefault();
         setPrice();
+        document.getElementById("ppg").style.visibility = 'visible';
+        document.getElementById("margin").style.visibility = 'visible';
         document.getElementById("submit").disabled = false;
       }
     </script>
