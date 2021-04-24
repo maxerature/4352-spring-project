@@ -74,7 +74,6 @@ export default {
                 console.log("created connection");
 
 
-<<<<<<< HEAD
                 let query = `\
                 SELECT *\n\ 
                 FROM Users AS U\n\ 
@@ -83,9 +82,6 @@ export default {
                 WHERE username = \"${username}\" \n\
                     AND active = 1`;
                 console.log(query);
-=======
-                let query = `SELECT * FROM Users AS U JOIN Addresses AS A ON A.UserID = U.UserID  WHERE username = \"${username}\" AND active = 1`;
->>>>>>> ebd5c420effad1809059b9e2ebc09b5785a778dd
 
 
                 con.connect((err) => {
@@ -93,12 +89,8 @@ export default {
                     console.log("Connected!");
                     con.query(query, (err, result) => {
                         if (err) throw err;
-<<<<<<< HEAD
                         console.log(result);
                         if(!result[0]) {
-=======
-                        if(result == "") {
->>>>>>> ebd5c420effad1809059b9e2ebc09b5785a778dd
                             res.json({None:""});
                         }
                         else {
