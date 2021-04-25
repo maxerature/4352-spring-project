@@ -21,7 +21,7 @@
             placeholder="Gallons"
             name="gall-req"
             required
-            onchange="setPrice()"
+            onchange="checkData()"
           />
         </p>
       </div>
@@ -44,25 +44,28 @@
           name = "delivery-date" 
           class="input-field"
           required
-          onchange="setPrice()"
+          onchange="checkData()"
           >
+      </div>
+
+      <div>
+        <p class="inline">Margin: $</p> 
+        <div id="margin" class="inline"></div>
       </div>
         
       <div>
         <p class="inline">Suggested Price/Gallon: $</p> 
         <div id="ppg" class="inline"></div>
       </div>
-      <div>
-        <p class="inline">Margin: $</p> 
-        <div id="margin" class="inline"></div>
-      </div>
 
       <div id="price-output">
-        <p class="inline">Total Cost: </p>
+        <p class="inline">Total Cost: $</p>
         <div id="cost" class="inline" class="price-output"></div>
       </div>
 
-      <button onclick="submitQuote()">Submit</button>
+      <button onclick="setCostAndPPG()" id="getQ">Get Quote</button>
+      <br>
+      <button onclick="submitQuote()" id="submit">Submit</button>
 
       <p><a href="ProfileManage.html">Manage Profile</a></p>
       <p><a href="login.html">Logout</a></p>
@@ -88,7 +91,9 @@
       }
 
       window.onload = function() {
-        let username = localStorage.getItem("username");      
+        let username = localStorage.getItem("username");    
+        document.getElementById("submit").disabled = true;
+        document.getElementById("getQ").disabled = true;
           (async () => {
             const rawResponse = await fetch("http://localhost:5000/quoteLoad", {
               method: "POST",
@@ -104,7 +109,9 @@
             await setLoc(contentt);
           })();
 
-            document.getElementById("ppg").innerHTML = setPPG();
+          document.getElementById("ppg").innerHTML = setPPG();
+          document.getElementById("ppg").style.visibility = 'hidden';
+          document.getElementById("margin").style.visibility = 'hidden';
       }
 
       async function setPrice() {
@@ -115,11 +122,7 @@
         let pricePerGal = document.getElementById("ppg").innerHTML;
         if(!isNaN(galsRequested)) 
           galsRequested = Number(galsRequested);
-        if(!deliveryDate) {
-          alert("Error!  Enter a delivery date!");
-        }
         
-
         (async () => {
             const rawResponse = await fetch("http://localhost:5000/request", {
               method: "POST",
@@ -150,7 +153,7 @@
           });
         const contentt = await rawResponse.json();
         document.getElementById("ppg").innerHTML = contentt.ppg;
-        document.getElementById("margin").innerHTML = contentt.margin;
+        document.getElementById("margin").innerHTML = contentt.margin.toFixed(3);;
         })();
       }
 
@@ -186,6 +189,22 @@
             }
           })();
         }
+      }
+
+      function checkData() {
+        deliveryDate = document.getElementById("delivery-date").value;
+        galsRequested = document.getElementById("gallreq").value;
+        if (deliveryDate && galsRequested) {
+          document.getElementById("getQ").disabled = false;
+        }
+      }
+
+      function setCostAndPPG() {
+        event.preventDefault();
+        setPrice();
+        document.getElementById("ppg").style.visibility = 'visible';
+        document.getElementById("margin").style.visibility = 'visible';
+        document.getElementById("submit").disabled = false;
       }
     </script>
   </body>
