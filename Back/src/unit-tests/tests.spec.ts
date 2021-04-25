@@ -27,7 +27,7 @@ describe("Login test", () => {
 
   it("Successful login to profile management", (done) => {
     const body = {
-      username: "DEBUG_NOFN",
+      username: "DEBUG_USER_NOFN",
       password: "DEBUG_PASS",
     };
     chai
@@ -119,7 +119,7 @@ describe("Registration test", () => {
   });
   it("Successful registration with unique username", (done) => {
     const body = {
-      username: "lmalhaim12",
+      username: Math.random().toString(36).substring(7),
       password: "pass123",
     };
     chai
@@ -480,6 +480,22 @@ describe("QuoteCalPriceTest", () => {
       .end((err, res) => {
         expect(res).have.status(200);
         expect(res.body).to.eql({ cost: 100 });
+        done();
+      });
+  });
+
+  it("Successfully returned a PPG", (done) => {
+    const body = {
+      username: "DEBUG_USER",
+      galsRequested: 10
+    };
+    chai
+      .request(server)
+      .post("/getPPG")
+      .send(body)
+      .end((err, res) => {
+        expect(res).have.status(200);
+        expect(res.body).to.eql({ppg: 1.725, margin: 0.22500000000000003});
         done();
       });
   });
