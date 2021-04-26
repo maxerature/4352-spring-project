@@ -495,7 +495,7 @@ describe("QuoteCalPriceTest", () => {
       .send(body)
       .end((err, res) => {
         expect(res).have.status(200);
-        expect(res.body).to.eql({ppg: 1.725, margin: 0.22500000000000003});
+        expect(res.body).to.eql({ppg: 1.74, margin: 0.24});
         done();
       });
   });
@@ -697,7 +697,7 @@ describe("HistoryLoadTest", () => {
 
   it("Failed due to incorrect username", (done) => {
     const body = {
-      username: "DEBUG_incorrect",
+      username: "DEBUG_incorrectt",
     };
     chai
       .request(server)

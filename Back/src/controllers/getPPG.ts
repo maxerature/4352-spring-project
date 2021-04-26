@@ -32,9 +32,9 @@ export default {
 
             //Get gallons requested factor
             if(galsRequested > 1000) {
-                gallonsRequestedFactor = 0.03;
-            } else {
                 gallonsRequestedFactor = 0.02;
+            } else {
+                gallonsRequestedFactor = 0.03;
             }
 
 

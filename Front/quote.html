@@ -199,9 +199,9 @@
         }
       }
 
-      function setCostAndPPG() {
+      async function setCostAndPPG() {
         event.preventDefault();
-        setPrice();
+        await setPrice();
         document.getElementById("ppg").style.visibility = 'visible';
         document.getElementById("margin").style.visibility = 'visible';
         document.getElementById("submit").disabled = false;
